@@ -38,10 +38,10 @@ panel = mapper.device{
         {name="button24", modtype="button", modparam={repeat_interval=100}},
         {name="button25", modtype="button", modparam={repeat_interval=100}},
         {name="button26", modtype="button", modparam={repeat_interval=100}},
-        {name="button27", modtype="button"},
-        {name="button28", modtype="button"},
-        {name="button29", modtype="button"},
-        {name="button30", modtype="button"},
+        {name="button27", modtype="button", modparam={repeat_interval=100}},
+        {name="button28", modtype="button", modparam={repeat_interval=100}},
+        {name="button29", modtype="button", modparam={repeat_interval=100}},
+        {name="button30", modtype="button", modparam={repeat_interval=100}},
         {name="button31", modtype="button"},
         {name="button32", modtype="button"},
         {name="button33", modtype="button"},
@@ -92,10 +92,20 @@ left_mh_down = panel_events.button24
 right_mh_up = panel_events.button25
 right_mh_down = panel_events.button26
 
+left_os_up = panel_events.button27
+left_os_down = panel_events.button28
+
+right_os_up = panel_events.button29
+right_os_down = panel_events.button30
+
 -- state vars
 left_mh_val = 0
 right_mh_val = 0
 mh_increment = 256
+
+left_os_val = 0
+right_os_val = 0
+os_increment = 2
 
 oe = mapper.register_event('observed event')
 local observed_data = {
@@ -134,6 +144,10 @@ mapper.set_primary_mappings{
     --     -- end
 
     -- },
+
+
+    -- == Fuel selectors ==
+
     {
         event = left_fuel_sel_off.down,
         action = msfs.mfwasm.rpn_executer('0 (>L:Denaq_Fuel_Sel1, Number)'),
@@ -159,6 +173,9 @@ mapper.set_primary_mappings{
         event = right_fuel_sel_rear.down,
         action = msfs.mfwasm.rpn_executer('2 (>L:Denaq_Fuel_Sel2, Number)'),
     },
+
+
+    -- === De-ice ==
 
     {
         event = left_mh_up.down,
@@ -205,7 +222,48 @@ mapper.set_primary_mappings{
                 msfs.send_event('ANTI_ICE_GRADUAL_SET_ENG2', right_mh_val)
             end
         end
-    }
+    },
+
+    -- == Oil Shutters ==
+    {
+        event = left_os_up.down,
+        action = function ()
+            if left_os_val > 0 then 
+                left_os_val = left_os_val - os_increment
+                -- doesnt work
+                -- msfs.send_event('Denarq_OILSHUTTER_SET_1', left_os_val)
+                msfs.mfwasm.execute_rpn(left_os_val .. ' (>L:Denarq_OILSHUTTER_SET_1)')
+            end
+        end
+    },
+    {
+        event = left_os_down.down,
+        action = function ()
+            if left_os_val < 100 then 
+                left_os_val = left_os_val + os_increment
+                msfs.mfwasm.execute_rpn(left_os_val .. ' (>L:Denarq_OILSHUTTER_SET_1)')
+            end
+        end
+    },
+    {
+        event = right_os_up.down,
+        action = function ()
+            if right_os_val > 0 then 
+                right_os_val = right_os_val - os_increment
+                msfs.mfwasm.execute_rpn(right_os_val .. ' (>L:Denarq_OILSHUTTER_SET_2)')
+            end
+        end
+    },
+    {
+        event = right_os_down.down,
+        action = function ()
+            if right_os_val < 100 then 
+                right_os_val = right_os_val + os_increment
+                msfs.mfwasm.execute_rpn(right_os_val .. ' (>L:Denarq_OILSHUTTER_SET_2)')
+            end
+        end
+    },
+
 
 }
 -- mapper.raise_event(my_event, 1)
