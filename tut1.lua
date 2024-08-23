@@ -36,8 +36,8 @@ panel = mapper.device{
         {name="button22", modtype="button"},
         {name="button23", modtype="button", modparam={repeat_interval=100}},
         {name="button24", modtype="button", modparam={repeat_interval=100}},
-        {name="button25", modtype="button"},
-        {name="button26", modtype="button"},
+        {name="button25", modtype="button", modparam={repeat_interval=100}},
+        {name="button26", modtype="button", modparam={repeat_interval=100}},
         {name="button27", modtype="button"},
         {name="button28", modtype="button"},
         {name="button29", modtype="button"},
@@ -89,6 +89,8 @@ right_fuel_sel_rear = panel_events.button36
 left_mh_up = panel_events.button23
 left_mh_down = panel_events.button24
 
+right_mh_up = panel_events.button25
+right_mh_down = panel_events.button26
 
 -- state vars
 left_mh_val = 0
@@ -183,6 +185,24 @@ mapper.set_primary_mappings{
             if left_mh_val < 16384 then 
                 left_mh_val = left_mh_val + mh_increment
                 msfs.send_event('ANTI_ICE_GRADUAL_SET_ENG1', left_mh_val)
+            end
+        end
+    },
+    {
+        event = right_mh_up.down,
+        action = function ()
+            if right_mh_val > 0 then 
+                right_mh_val = right_mh_val - mh_increment
+                msfs.send_event('ANTI_ICE_GRADUAL_SET_ENG2', right_mh_val)
+            end
+        end
+    },
+    {
+        event = right_mh_down.down,
+        action = function ()
+            if right_mh_val < 16384 then 
+                right_mh_val = right_mh_val + mh_increment
+                msfs.send_event('ANTI_ICE_GRADUAL_SET_ENG2', right_mh_val)
             end
         end
     }
