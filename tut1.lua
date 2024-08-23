@@ -34,8 +34,8 @@ panel = mapper.device{
         {name="button20", modtype="button"},
         {name="button21", modtype="button"},
         {name="button22", modtype="button"},
-        {name="button23", modtype="button"},
-        {name="button24", modtype="button"},
+        {name="button23", modtype="button", modparam={repeat_interval=100}},
+        {name="button24", modtype="button", modparam={repeat_interval=100}},
         {name="button25", modtype="button"},
         {name="button26", modtype="button"},
         {name="button27", modtype="button"},
@@ -85,6 +85,21 @@ left_fuel_sel_rear = panel_events.button16
 right_fuel_sel_off = panel_events.button34
 right_fuel_sel_front = panel_events.button35
 right_fuel_sel_rear = panel_events.button36
+
+left_mh_up = panel_events.button23
+left_mh_down = panel_events.button24
+
+
+-- state vars
+left_mh_val = 0
+right_mh_val = 0
+mh_increment = 256
+
+oe = mapper.register_event('observed event')
+local observed_data = {
+     {rpn="(A:ENG ANTI ICE:0,Number)", event=oe},
+}
+msfs.mfwasm.add_observed_data(observed_data)
 
 mapper.set_primary_mappings{
     {
@@ -143,6 +158,34 @@ mapper.set_primary_mappings{
         action = msfs.mfwasm.rpn_executer('2 (>L:Denaq_Fuel_Sel2, Number)'),
     },
 
+    {
+        event = left_mh_up.down,
+        --action = msfs.mfwasm.rpn_executer('5000 (>L:ANTI-ICE-GRADUAL-SET-ENG1, Number)'), doesnt work
+
+        -- this works - sets a value
+        -- action = function ()
+        --     msfs.send_event('ANTI_ICE_GRADUAL_SET_ENG1', 5000)
+        -- end
+
+        -- this works as well - sets a fixed value
+        --action = msfs.mfwasm.rpn_executer('5000 (>K:ANTI_ICE_GRADUAL_SET_ENG1)')
+
+        action = function ()
+            if left_mh_val > 0 then 
+                left_mh_val = left_mh_val - mh_increment
+                msfs.send_event('ANTI_ICE_GRADUAL_SET_ENG1', left_mh_val)
+            end
+        end
+    },
+    {
+        event = left_mh_down.down,
+        action = function ()
+            if left_mh_val < 16384 then 
+                left_mh_val = left_mh_val + mh_increment
+                msfs.send_event('ANTI_ICE_GRADUAL_SET_ENG1', left_mh_val)
+            end
+        end
+    }
 
 }
 -- mapper.raise_event(my_event, 1)
