@@ -10,7 +10,54 @@ panel = mapper.device{
     type = 'dinput',
     identifier = {name = 'VPC Control Panel 3'},
     modifiers = {
-        {name="button31", modtype="button"}
+        {name="button0", modtype="button"},
+        {name="button1", modtype="button"},
+        {name="button2", modtype="button"},
+        {name="button3", modtype="button"},
+        {name="button4", modtype="button"},
+        {name="button5", modtype="button"},
+        {name="button6", modtype="button"},
+        {name="button7", modtype="button"},
+        {name="button8", modtype="button"},
+        {name="button9", modtype="button"},
+        {name="button10", modtype="button"},
+        {name="button11", modtype="button"},
+        {name="button12", modtype="button"},
+        {name="button13", modtype="button"},
+        {name="button14", modtype="button"},
+        {name="button15", modtype="button"},
+        {name="button16", modtype="button"},
+        {name="button17", modtype="button"},
+        {name="button18", modtype="button"},
+        {name="button19", modtype="button"},
+        {name="button20", modtype="button"},
+        {name="button21", modtype="button"},
+        {name="button22", modtype="button"},
+        {name="button23", modtype="button"},
+        {name="button24", modtype="button"},
+        {name="button25", modtype="button"},
+        {name="button26", modtype="button"},
+        {name="button27", modtype="button"},
+        {name="button28", modtype="button"},
+        {name="button29", modtype="button"},
+        {name="button30", modtype="button"},
+        {name="button31", modtype="button"},
+        {name="button32", modtype="button"},
+        {name="button33", modtype="button"},
+        {name="button34", modtype="button"},
+        {name="button35", modtype="button"},
+        {name="button36", modtype="button"},
+        {name="button37", modtype="button"},
+        {name="button38", modtype="button"},
+        {name="button39", modtype="button"},
+        {name="button40", modtype="button"},
+        {name="button41", modtype="button"},
+        {name="button42", modtype="button"},
+        {name="button43", modtype="button"},
+        {name="button44", modtype="button"},
+        {name="button45", modtype="button"},
+        {name="button46", modtype="button"},
+        {name="button47", modtype="button"},
     },
 }
 
@@ -28,12 +75,31 @@ mapper.set_primary_mappings{
         action = msfs.mfwasm.rpn_executer('0 (>L:CARVAR_SW_STARTER_LR, Number)')
     },
     {
-        event = panel_events.button32.change,
+        event = panel_events.button32.down,
         action = msfs.mfwasm.rpn_executer('1 (>L:CARVAR_SW_STARTER_LR, Number)')
     },
     {
-        event = panel_events.button33.change,
+        event = panel_events.button33.down,
         action = msfs.mfwasm.rpn_executer('2 (>L:CARVAR_SW_STARTER_LR, Number)')
     },
+
+    -- test - setting engine mixure levels using btns 8-10
+    {
+        event = panel_events.button8.down,
+        action = msfs.mfwasm.rpn_executer('0 (>A:GENERAL ENG MIXTURE LEVER POSITION:1, Number)')
+    },
+    {
+        event = panel_events.button9.down,
+        action = msfs.mfwasm.rpn_executer('0.33 (>A:GENERAL ENG MIXTURE LEVER POSITION:1, Number)')
+    },
+    {
+        event = panel_events.button10.down,
+        action = msfs.mfwasm.rpn_executer('0.66 (>A:GENERAL ENG MIXTURE LEVER POSITION:1, Number)')
+    },
+    {
+        event = panel_events.button11.down,
+        action = msfs.mfwasm.rpn_executer('1 (>A:GENERAL ENG MIXTURE LEVER POSITION:1, Number)')
+    },
+
 }
 -- mapper.raise_event(my_event, 1)
