@@ -84,21 +84,49 @@ mapper.set_primary_mappings{
     },
 
     -- test - setting engine mixure levels using btns 8-10
+    -- {
+    --     event = panel_events.button8.down,
+    --     action = msfs.mfwasm.rpn_executer('0 (>A:GENERAL ENG MIXTURE LEVER POSITION:1, Number)')
+    -- },
+    -- {
+    --     event = panel_events.button9.down,
+    --     --action = msfs.mfwasm.rpn_executer('0.33 (>A:GENERAL ENG MIXTURE LEVER POSITION:1, Number)')
+    --     action = function (evid, value) 
+    --         --msfs.execute_input_event('LIGHTING_LANDING_0', 1)
+    --         --msfs.send_event('MIXTURE1_DECR') -- this works
+    --         --msfs.execute_input_event('MIXTURE1_DECR', 0) -- does not work
+    --         msfs.send_event('AXIS_MIXTURE1_SET', 0.5)
+    --     end
+    -- },
+    -- {
+    --     event = panel_events.button10.down,
+    --     action = msfs.mfwasm.rpn_executer('0.66 (>A:GENERAL ENG MIXTURE LEVER POSITION:1, Number)')
+    -- },
+    -- {
+    --     event = panel_events.button11.down,
+    --     action = msfs.mfwasm.rpn_executer('1 (>A:GENERAL ENG MIXTURE LEVER POSITION:1, Number)')
+    -- },
+    -- mapping axis
     {
-        event = panel_events.button8.down,
-        action = msfs.mfwasm.rpn_executer('0 (>A:GENERAL ENG MIXTURE LEVER POSITION:1, Number)')
-    },
-    {
-        event = panel_events.button9.down,
-        action = msfs.mfwasm.rpn_executer('0.33 (>A:GENERAL ENG MIXTURE LEVER POSITION:1, Number)')
-    },
-    {
-        event = panel_events.button10.down,
-        action = msfs.mfwasm.rpn_executer('0.66 (>A:GENERAL ENG MIXTURE LEVER POSITION:1, Number)')
-    },
-    {
-        event = panel_events.button11.down,
-        action = msfs.mfwasm.rpn_executer('1 (>A:GENERAL ENG MIXTURE LEVER POSITION:1, Number)')
+        event = panel_events.x.change,
+        -- action = function(_, val) 
+        --     --scaled = (val + 50000) / 100000.0
+        --     scaled = val * 0.6
+        --     mapper.print('scaled val: ' .. scaled)
+        --     msfs.send_event('AXIS_MIXTURE1_SET', scaled)
+        --     -- msfs.send_event('AXIS_MIXTURE1_SET', val*0.6)
+        -- end
+        action = filter.lerp(
+            function(_, val)
+                mapper.print('larped val: ' .. val)
+                msfs.send_event('AXIS_MIXTURE1_SET', val)
+            end,
+            --msfs.event_sender('AXIS_MIXTURE1_SET'),
+            {
+                {-50000, -16384},
+                {50000, 16384}
+            }
+        )
     },
 
 }
