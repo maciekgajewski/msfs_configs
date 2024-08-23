@@ -1,9 +1,10 @@
-hotas = mapper.device{
-    name = 'Hotas',
-    type = 'dinput',
-    identifier = {name = 'Throttle - HOTAS Warthog'},
-    modifiers = {},
-}
+-- hotas = mapper.device{
+--     name = 'Hotas',
+--     type = 'dinput',
+--  --   identifier = {name = 'Throttle - HOTAS Warthog'},
+--     identifier = {name = 'Thrustmaster Combined'},
+--     modifiers = {},
+-- }
 
 panel = mapper.device{
     name = 'Panel',
@@ -69,65 +70,79 @@ local panel_events = panel:get_events()
 -- mapper.print("== Events END ==")
 
 -- local my_event = mapper.register_event('My Event')
+
+-- beech mappings
+selector_left = panel_events.button31
+selector_center = panel_events.button32
+selector_right = panel_events.button33
+
+primer_button = panel_events.button6
+
+left_fuel_sel_off = panel_events.button14
+left_fuel_sel_front = panel_events.button15
+left_fuel_sel_rear = panel_events.button16
+
+right_fuel_sel_off = panel_events.button34
+right_fuel_sel_front = panel_events.button35
+right_fuel_sel_rear = panel_events.button36
+
 mapper.set_primary_mappings{
     {
-        event = panel_events.button31.down,
-        action = msfs.mfwasm.rpn_executer('0 (>L:CARVAR_SW_STARTER_LR, Number)')
+        event = selector_left.down,
+        action = filter.duplicator(
+            msfs.mfwasm.rpn_executer('0 (>L:CARVAR_SW_STARTER_LR, Number)'),
+            msfs.mfwasm.rpn_executer('0 (>L:CARVAR_SW_PRIMER_LR, Number)')
+        )    
     },
     {
-        event = panel_events.button32.down,
-        action = msfs.mfwasm.rpn_executer('1 (>L:CARVAR_SW_STARTER_LR, Number)')
+        event = selector_center.down,
+        action = filter.duplicator(
+            msfs.mfwasm.rpn_executer('1 (>L:CARVAR_SW_STARTER_LR, Number)'),
+            msfs.mfwasm.rpn_executer('1 (>L:CARVAR_SW_PRIMER_LR, Number)')
+        )    
     },
     {
-        event = panel_events.button33.down,
-        action = msfs.mfwasm.rpn_executer('2 (>L:CARVAR_SW_STARTER_LR, Number)')
+        event = selector_right.down,
+        action = filter.duplicator(
+            msfs.mfwasm.rpn_executer('2 (>L:CARVAR_SW_STARTER_LR, Number)'),
+            msfs.mfwasm.rpn_executer('3 (>L:CARVAR_SW_PRIMER_LR, Number)')
+        )    
+    },
+    -- dont know how to operatre primer or pumps
+    -- {
+    --     event = primer_button.down,
+    --     --action =  msfs.mfwasm.rpn_executer('TRUE (>K:FUELSYSTEM_PUMP_ON:1, Bool)')
+    --     -- action = function()
+    --     --     msfs.send_event('FUELSYSTEM_PUMP_ON:1', 1)
+    --     -- end
+
+    -- },
+    {
+        event = left_fuel_sel_off.down,
+        action = msfs.mfwasm.rpn_executer('0 (>L:Denaq_Fuel_Sel1, Number)'),
+    },
+    {
+        event = left_fuel_sel_front.down,
+        action = msfs.mfwasm.rpn_executer('1 (>L:Denaq_Fuel_Sel1, Number)'),
+    },
+    {
+        event = left_fuel_sel_rear.down,
+        action = msfs.mfwasm.rpn_executer('2 (>L:Denaq_Fuel_Sel1, Number)'),
     },
 
-    -- test - setting engine mixure levels using btns 8-10
-    -- {
-    --     event = panel_events.button8.down,
-    --     action = msfs.mfwasm.rpn_executer('0 (>A:GENERAL ENG MIXTURE LEVER POSITION:1, Number)')
-    -- },
-    -- {
-    --     event = panel_events.button9.down,
-    --     --action = msfs.mfwasm.rpn_executer('0.33 (>A:GENERAL ENG MIXTURE LEVER POSITION:1, Number)')
-    --     action = function (evid, value) 
-    --         --msfs.execute_input_event('LIGHTING_LANDING_0', 1)
-    --         --msfs.send_event('MIXTURE1_DECR') -- this works
-    --         --msfs.execute_input_event('MIXTURE1_DECR', 0) -- does not work
-    --         msfs.send_event('AXIS_MIXTURE1_SET', 0.5)
-    --     end
-    -- },
-    -- {
-    --     event = panel_events.button10.down,
-    --     action = msfs.mfwasm.rpn_executer('0.66 (>A:GENERAL ENG MIXTURE LEVER POSITION:1, Number)')
-    -- },
-    -- {
-    --     event = panel_events.button11.down,
-    --     action = msfs.mfwasm.rpn_executer('1 (>A:GENERAL ENG MIXTURE LEVER POSITION:1, Number)')
-    -- },
-    -- mapping axis
     {
-        event = panel_events.x.change,
-        -- action = function(_, val) 
-        --     --scaled = (val + 50000) / 100000.0
-        --     scaled = val * 0.6
-        --     mapper.print('scaled val: ' .. scaled)
-        --     msfs.send_event('AXIS_MIXTURE1_SET', scaled)
-        --     -- msfs.send_event('AXIS_MIXTURE1_SET', val*0.6)
-        -- end
-        action = filter.lerp(
-            function(_, val)
-                mapper.print('larped val: ' .. val)
-                msfs.send_event('AXIS_MIXTURE1_SET', val)
-            end,
-            --msfs.event_sender('AXIS_MIXTURE1_SET'),
-            {
-                {-50000, -16384},
-                {50000, 16384}
-            }
-        )
+        event = right_fuel_sel_off.down,
+        action = msfs.mfwasm.rpn_executer('0 (>L:Denaq_Fuel_Sel2, Number)'),
     },
+    {
+        event = right_fuel_sel_front.down,
+        action = msfs.mfwasm.rpn_executer('1 (>L:Denaq_Fuel_Sel2, Number)'),
+    },
+    {
+        event = right_fuel_sel_rear.down,
+        action = msfs.mfwasm.rpn_executer('2 (>L:Denaq_Fuel_Sel2, Number)'),
+    },
+
 
 }
 -- mapper.raise_event(my_event, 1)
