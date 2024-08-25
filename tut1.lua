@@ -98,6 +98,13 @@ left_os_down = panel_events.button28
 right_os_up = panel_events.button29
 right_os_down = panel_events.button30
 
+
+left_fuel_pump_on = panel_events.button17
+left_fuel_pump_off = panel_events.button18
+
+hsi_cdi_inc = panel_events.button39
+hsi_cdi_dec = panel_events.button38
+
 -- state vars
 left_mh_val = 0
 right_mh_val = 0
@@ -143,6 +150,19 @@ mapper.set_primary_mappings{
     --     --     msfs.send_event('FUELSYSTEM_PUMP_ON:1', 1)
     --     -- end
 
+    -- },
+
+
+    -- {
+    --     event = left_fuel_pump_on.down,
+        
+    --     -- action = msfs.mfwasm.rpn_executer('1 0 (>K:2:FUELSYSTEM_PUMP_SET)'), -- doesnt work
+    --      action = msfs.mfwasm.rpn_executer('TRUE (>L:Denarq_FuelPump_1, enum)') -- nope
+
+    -- },
+    -- {
+    --     event = left_fuel_pump_off.down,
+    --     action = msfs.mfwasm.rpn_executer('0 0 (>K:2:FUELSYSTEM_PUMP_SET)'),
     -- },
 
 
@@ -264,6 +284,16 @@ mapper.set_primary_mappings{
         end
     },
 
+    -- === HSI ===
+
+    {
+        event = hsi_cdi_inc.down,
+        action = msfs.event_sender('VOR1_OBI_INC')
+    },
+    {
+        event = hsi_cdi_dec.down,
+        action = msfs.event_sender('VOR1_OBI_DEC')
+    },
 
 }
 -- mapper.raise_event(my_event, 1)
