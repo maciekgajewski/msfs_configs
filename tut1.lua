@@ -117,13 +117,26 @@ left_os_val = 0
 right_os_val = 0
 os_increment = 2
 
-oe = mapper.register_event('observed event')
+-- testing the resolutiuon of the clock: ABSOL?UTYE TIME is in full seconds, SIMULATTIN TIME is in fractions
+msfs.mfwasm.execute_rpn('7 (>L:MACIEK_LAST_VOR_OBI_TIME, Number)')
+observed_event1 = mapper.register_event('observed event1')
+observed_event2 = mapper.register_event('observed event2')
 local observed_data = {
-     {rpn="(A:ENG ANTI ICE:0,Number)", event=oe},
-}
+     --{rpn="(E:SIMULATION TIME,Seconds)", event=observed_event, epsilon=1.5},
+     --{rpn="(E:SIMULATION TIME,Number) (L:MACIEK_LAST_VOR_OBI_TIME, Number) -", event=observed_event1},
+    --  {rpn="(E:SIMULATION TIME,Number) (>L:MACIEK_LAST_VOR_OBI_TIME)", event=observed_event2},
+    }
 msfs.mfwasm.add_observed_data(observed_data)
 
 mapper.set_primary_mappings{
+
+    -- {
+    --     event = observed_event,
+    --     action = function(e, v)
+    --         mapper.print('observed event: ' .. v)
+    --     end
+    -- },
+
     {
         event = selector_left.down,
         action = filter.duplicator(
@@ -299,7 +312,7 @@ mapper.set_primary_mappings{
 
     {
         event = hsi_cdi_inc.down,
-        action = msfs.event_sender('VOR1_OBI_INC')
+        action = msfs.mfwasm.rpn_executer('(E:SIMULATION TIME,Number) (L:MACIEK_LAST_VOR_OBI_TIME, Number) - 0.2 < if{  1 (>K:VOR1_OBI_INC) 1 (>K:VOR1_OBI_INC) 1 (>K:VOR1_OBI_INC) } 1 (>K:VOR1_OBI_INC) (E:SIMULATION TIME,Number) (>L:MACIEK_LAST_VOR_OBI_TIME)') -- HAHA works!
     },
     {
         event = hsi_cdi_dec.down,
