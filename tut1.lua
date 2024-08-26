@@ -102,6 +102,9 @@ right_os_down = panel_events.button30
 left_fuel_pump_on = panel_events.button17
 left_fuel_pump_off = panel_events.button18
 
+right_fuel_pump_on = panel_events.button19
+right_fuel_pump_off = panel_events.button20
+
 hsi_cdi_inc = panel_events.button39
 hsi_cdi_dec = panel_events.button38
 
@@ -142,7 +145,7 @@ mapper.set_primary_mappings{
             msfs.mfwasm.rpn_executer('3 (>L:CARVAR_SW_PRIMER_LR, Number)')
         )    
     },
-    -- dont know how to operatre primer or pumps
+    -- dont know how to operatre primer
     -- {
     --     event = primer_button.down,
     --     --action =  msfs.mfwasm.rpn_executer('TRUE (>K:FUELSYSTEM_PUMP_ON:1, Bool)')
@@ -153,17 +156,25 @@ mapper.set_primary_mappings{
     -- },
 
 
-    -- {
-    --     event = left_fuel_pump_on.down,
-        
-    --     -- action = msfs.mfwasm.rpn_executer('1 0 (>K:2:FUELSYSTEM_PUMP_SET)'), -- doesnt work
-    --      action = msfs.mfwasm.rpn_executer('TRUE (>L:Denarq_FuelPump_1, enum)') -- nope
+    -- === Fuel boosters ==
+    {
+        event = left_fuel_pump_on.down,
+        action = msfs.mfwasm.rpn_executer('1 (>K:FUELSYSTEM_PUMP_ON)')
 
-    -- },
-    -- {
-    --     event = left_fuel_pump_off.down,
-    --     action = msfs.mfwasm.rpn_executer('0 0 (>K:2:FUELSYSTEM_PUMP_SET)'),
-    -- },
+    },
+    {
+        event = left_fuel_pump_off.down,
+        action = msfs.mfwasm.rpn_executer('1 (>K:FUELSYSTEM_PUMP_OFF)')
+    },
+    {
+        event = right_fuel_pump_on.down,
+        action = msfs.mfwasm.rpn_executer('2 (>K:FUELSYSTEM_PUMP_ON)')
+
+    },
+    {
+        event = right_fuel_pump_off.down,
+        action = msfs.mfwasm.rpn_executer('2 (>K:FUELSYSTEM_PUMP_OFF)')
+    },
 
 
     -- == Fuel selectors ==
