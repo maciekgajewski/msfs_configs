@@ -139,24 +139,15 @@ mapper.set_primary_mappings{
 
     {
         event = selector_left.down,
-        action = filter.duplicator(
-            msfs.mfwasm.rpn_executer('0 (>L:CARVAR_SW_STARTER_LR, Number)'),
-            msfs.mfwasm.rpn_executer('0 (>L:CARVAR_SW_PRIMER_LR, Number)')
-        )    
+        action = msfs.mfwasm.rpn_executer('0 (>L:CARVAR_SW_STARTER_LR, Number) 0 (>L:CARVAR_SW_PRIMER_LR, Number)')
     },
     {
         event = selector_center.down,
-        action = filter.duplicator(
-            msfs.mfwasm.rpn_executer('1 (>L:CARVAR_SW_STARTER_LR, Number)'),
-            msfs.mfwasm.rpn_executer('1 (>L:CARVAR_SW_PRIMER_LR, Number)')
-        )    
+        action = msfs.mfwasm.rpn_executer('1 (>L:CARVAR_SW_STARTER_LR, Number) 1 (>L:CARVAR_SW_PRIMER_LR, Number)')
     },
     {
         event = selector_right.down,
-        action = filter.duplicator(
-            msfs.mfwasm.rpn_executer('2 (>L:CARVAR_SW_STARTER_LR, Number)'),
-            msfs.mfwasm.rpn_executer('3 (>L:CARVAR_SW_PRIMER_LR, Number)')
-        )    
+        action = msfs.mfwasm.rpn_executer('2 (>L:CARVAR_SW_STARTER_LR, Number) 2 (>L:CARVAR_SW_PRIMER_LR, Number)')
     },
     -- dont know how to operatre primer
     -- {
@@ -194,28 +185,28 @@ mapper.set_primary_mappings{
 
     {
         event = left_fuel_sel_off.down,
-        action = msfs.mfwasm.rpn_executer('0 (>L:Denaq_Fuel_Sel1, Number)'),
+        action = msfs.mfwasm.rpn_executer('0 (>L:Denaq_Fuel_Sel1, Number) 3 1 (>K:2:FUELSYSTEM_JUNCTION_SET)'),
     },
     {
         event = left_fuel_sel_front.down,
-        action = msfs.mfwasm.rpn_executer('1 (>L:Denaq_Fuel_Sel1, Number)'),
+        action = msfs.mfwasm.rpn_executer('1 (>L:Denaq_Fuel_Sel1, Number) 1 1 (>K:2:FUELSYSTEM_JUNCTION_SET)'),
     },
     {
         event = left_fuel_sel_rear.down,
-        action = msfs.mfwasm.rpn_executer('2 (>L:Denaq_Fuel_Sel1, Number)'),
+        action = msfs.mfwasm.rpn_executer('2 (>L:Denaq_Fuel_Sel1, Number) 2 1 (>K:2:FUELSYSTEM_JUNCTION_SET)'),
     },
 
     {
         event = right_fuel_sel_off.down,
-        action = msfs.mfwasm.rpn_executer('0 (>L:Denaq_Fuel_Sel2, Number)'),
+        action = msfs.mfwasm.rpn_executer('0 (>L:Denaq_Fuel_Sel2, Number) 3 2 (>K:2:FUELSYSTEM_JUNCTION_SET)'),
     },
     {
         event = right_fuel_sel_front.down,
-        action = msfs.mfwasm.rpn_executer('1 (>L:Denaq_Fuel_Sel2, Number)'),
+        action = msfs.mfwasm.rpn_executer('1 (>L:Denaq_Fuel_Sel2, Number) 1 2 (>K:2:FUELSYSTEM_JUNCTION_SET)'),
     },
     {
         event = right_fuel_sel_rear.down,
-        action = msfs.mfwasm.rpn_executer('2 (>L:Denaq_Fuel_Sel2, Number)'),
+        action = msfs.mfwasm.rpn_executer('2 (>L:Denaq_Fuel_Sel2, Number) 2 2 (>K:2:FUELSYSTEM_JUNCTION_SET)'),
     },
 
 
@@ -309,14 +300,14 @@ mapper.set_primary_mappings{
     },
 
     -- === HSI ===
-
+    -- increment with single click, increase by 4 when clicking fast
     {
         event = hsi_cdi_inc.down,
-        action = msfs.mfwasm.rpn_executer('(E:SIMULATION TIME,Number) (L:MACIEK_LAST_VOR_OBI_TIME, Number) - 0.2 < if{  1 (>K:VOR1_OBI_INC) 1 (>K:VOR1_OBI_INC) 1 (>K:VOR1_OBI_INC) } 1 (>K:VOR1_OBI_INC) (E:SIMULATION TIME,Number) (>L:MACIEK_LAST_VOR_OBI_TIME)') -- HAHA works!
+        action = msfs.mfwasm.rpn_executer('(E:SIMULATION TIME,Number) (L:MACIEK_LAST_VOR_OBI_TIME, Number) - 0.5 < if{  1 (>K:VOR1_OBI_INC) 1 (>K:VOR1_OBI_INC) 1 (>K:VOR1_OBI_INC) } 1 (>K:VOR1_OBI_INC) (E:SIMULATION TIME,Number) (>L:MACIEK_LAST_VOR_OBI_TIME)') -- HAHA works!
     },
     {
         event = hsi_cdi_dec.down,
-        action = msfs.event_sender('VOR1_OBI_DEC')
+        action = msfs.mfwasm.rpn_executer('(E:SIMULATION TIME,Number) (L:MACIEK_LAST_VOR_OBI_TIME, Number) - 0.5 < if{  1 (>K:VOR1_OBI_DEC) 1 (>K:VOR1_OBI_DEC) 1 (>K:VOR1_OBI_DEC) } 1 (>K:VOR1_OBI_DEC) (E:SIMULATION TIME,Number) (>L:MACIEK_LAST_VOR_OBI_TIME)') -- HAHA works!
     },
 
 }
