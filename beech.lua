@@ -358,7 +358,7 @@ mapper.set_primary_mappings{
         action = msfs.mfwasm.rpn_executer('(E:SIMULATION TIME,Number) (L:MACIEK_LAST_VOR_OBI_TIME, Number) - 0.5 < if{  1 (>K:VOR1_OBI_DEC) 1 (>K:VOR1_OBI_DEC) 1 (>K:VOR1_OBI_DEC) } 1 (>K:VOR1_OBI_DEC) (E:SIMULATION TIME,Number) (>L:MACIEK_LAST_VOR_OBI_TIME)') -- HAHA works!
     },
 
-    -- wheels
+    -- == Wheels ==
     {
         event = parking_brake_on,
         action =  msfs.mfwasm.rpn_executer('1 (>K:PARKING_BRAKE_SET,Bool)')
@@ -380,5 +380,22 @@ mapper.set_primary_mappings{
         action =  msfs.mfwasm.rpn_executer('(>K:TOGGLE_TAILWHEEL_LOCK)')
     },
 
+    -- == Landing Light ==
+    {
+        event = landing_light_on,
+        action =  msfs.mfwasm.rpn_executer('0 (>L:XMLVAR_LANDINGRETRACTSTATE)')
+    },
+    {
+        event = landing_light_off,
+        action =  msfs.mfwasm.rpn_executer('1 (>L:XMLVAR_LANDINGRETRACTSTATE)')
+    },
+    {
+        event = landing_light_off_alt,
+        action =  msfs.mfwasm.rpn_executer('1 (>L:XMLVAR_LANDINGRETRACTSTATE)')
+    },
+    {
+        event = landing_light_retracted,
+        action =  msfs.mfwasm.rpn_executer('2 (>L:XMLVAR_LANDINGRETRACTSTATE)')
+    },
 
 }
