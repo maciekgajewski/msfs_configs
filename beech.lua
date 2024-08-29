@@ -156,6 +156,12 @@ landing_light_off = hotas_events.button27.up
 landing_light_off_alt = hotas_events.button28.up
 landing_light_retracted = hotas_events.button28.down
 
+ap_master_toggle = hotas_events.button15.down
+ap_heading_pitch = hotas_events.pov1.change
+ap_hold_heading_toggle = hotas_events.button4.down
+ap_hold_altitute_toggle = hotas_events.button3.down
+ap_hold_pitch_toggle = hotas_events.button5.down
+
 -- state vars
 left_mh_val = 0
 right_mh_val = 0
@@ -397,5 +403,44 @@ mapper.set_primary_mappings{
         event = landing_light_retracted,
         action =  msfs.mfwasm.rpn_executer('2 (>L:XMLVAR_LANDINGRETRACTSTATE)')
     },
+
+    -- == Autopilot ==
+-- ap_master_toggle = hotas_events.button15.down
+-- ap_heading_pitch = hotas_events.pov1.change
+-- ap_hold_heading_toggle = hotas_events.button4.down
+-- ap_hold_altitute_toggle = hotas_events.button3.down
+-- ap_hold_pitch_toggle = hotas_events.button5.down
+
+    {
+        event = ap_master_toggle,
+        action =  msfs.mfwasm.rpn_executer('(>K:AP_MASTER)')
+    },
+    {
+        event = ap_hold_heading_toggle,
+        action =  msfs.mfwasm.rpn_executer('(>K:AP_PANEL_HEADING_HOLD)')
+    },
+    {
+        event = ap_hold_altitute_toggle,
+        action =  msfs.mfwasm.rpn_executer('(>K:AP_PANEL_ALTITUDE_HOLD)')
+    },
+    {
+        event = ap_hold_pitch_toggle,
+        action =  msfs.mfwasm.rpn_executer('(>K:AP_PANEL_VS_HOLD)')
+    },
+    {
+        event = ap_heading_pitch,
+        action = function(_, val)
+            if val == 0 then
+                msfs.mfwasm.execute_rpn('(>K:AP_VS_VAR_INC)')
+            elseif val == 18000 then
+                msfs.mfwasm.execute_rpn('(>K:AP_VS_VAR_DEC)')
+            elseif val == 9000 then
+                msfs.mfwasm.execute_rpn('(>K:HEADING_BUG_INC)')
+            elseif val == 27000 then
+                msfs.mfwasm.execute_rpn('(>K:HEADING_BUG_DEC)')
+            end
+        end
+    }
+
 
 }
