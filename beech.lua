@@ -156,6 +156,11 @@ landing_light_off = hotas_events.button27.up
 landing_light_off_alt = hotas_events.button28.up
 landing_light_retracted = hotas_events.button28.down
 
+flaps_up = hotas_events.button22.down
+flaps_mid = hotas_events.button22.up
+flaps_mid_alt = hotas_events.button23.up
+flaps_down = hotas_events.button23.down
+
 ap_master_toggle = hotas_events.button15.down
 ap_heading_pitch = hotas_events.pov1.change
 ap_hold_heading_toggle = hotas_events.button4.down
@@ -164,7 +169,11 @@ ap_hold_pitch_toggle = hotas_events.button5.down
 
 ap_heading_pitch_action = function(val)
     if val == 0 then
-        msfs.mfwasm.execute_rpn('(>K:AP_VS_VAR_INC)')
+        -- msfs.mfwasm.execute_rpn('(>K:AP_VS_VAR_INC)') -- doesnt work
+          msfs.mfwasm.execute_rpn('(>K:AP_PITCH_REF_INC_UP)') -- doesnt work
+         --msfs.mfwasm.execute_rpn('(>K:AP_VS_VAR_SET_CURRENT)') -- doesnt work
+         
+
     elseif val == 18000 then
         msfs.mfwasm.execute_rpn('(>K:AP_VS_VAR_DEC)')
     elseif val == 9000 then
@@ -177,6 +186,10 @@ ap_heading_pitch_last_value = -1
 ap_heading_pitch_repeat_event =  mapper.register_event('AP Heading/Pitch repeat')
 ap_heading_pitch_repeat_delay = 250 --ms
 ap_heading_pitch_repeat_interval = 50 --ms
+
+
+cabin_light_on = panel_events.button17.down
+cabin_light_off = panel_events.button18.down
 
 -- state vars
 left_mh_val = 0
@@ -437,7 +450,8 @@ mapper.set_primary_mappings{
     },
     {
         event = ap_hold_altitute_toggle,
-        action =  msfs.mfwasm.rpn_executer('(>K:AP_PANEL_ALTITUDE_HOLD)')
+        -- action =  msfs.mfwasm.rpn_executer('(>K:AP_PANEL_ALTITUDE_HOLD)') -- does not reset reference alt to cyrrent
+        action =  msfs.mfwasm.rpn_executer('(>K:AP_ALT_HOLD)')
     },
     {
         event = ap_hold_pitch_toggle,
@@ -467,6 +481,35 @@ mapper.set_primary_mappings{
                 end)
             end
         end
-    }
+    },
+
+    -- == Flaps ==
+    {
+        event = flaps_up,
+        action =  msfs.mfwasm.rpn_executer('(>K:FLAPS_UP)')
+    },
+    {
+        event = flaps_mid,
+        action =  msfs.mfwasm.rpn_executer('(>K:FLAPS_1)')
+    },
+    {
+        event = flaps_mid_alt,
+        action =  msfs.mfwasm.rpn_executer('(>K:FLAPS_1)')
+    },
+    {
+        event = flaps_down,
+        action =  msfs.mfwasm.rpn_executer('(>K:FLAPS_DOWN)')
+    },
+
+    -- == Cabin lights ==
+    {
+        event = cabin_light_on,
+        action =  msfs.mfwasm.rpn_executer('0 (>K:CABIN_LIGHTS_ON)')
+    },
+    {
+        event = cabin_light_off,
+        action =  msfs.mfwasm.rpn_executer('0 (>K:CABIN_LIGHTS_OFF)')
+    },
+  
 
 }
