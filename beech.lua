@@ -162,6 +162,22 @@ ap_hold_heading_toggle = hotas_events.button4.down
 ap_hold_altitute_toggle = hotas_events.button3.down
 ap_hold_pitch_toggle = hotas_events.button5.down
 
+ap_heading_pitch_action = function(val)
+    if val == 0 then
+        msfs.mfwasm.execute_rpn('(>K:AP_VS_VAR_INC)')
+    elseif val == 18000 then
+        msfs.mfwasm.execute_rpn('(>K:AP_VS_VAR_DEC)')
+    elseif val == 9000 then
+        msfs.mfwasm.execute_rpn('(>K:HEADING_BUG_INC)')
+    elseif val == 27000 then
+        msfs.mfwasm.execute_rpn('(>K:HEADING_BUG_DEC)')
+    end
+end
+ap_heading_pitch_last_value = -1
+ap_heading_pitch_repeat_event =  mapper.register_event('AP Heading/Pitch repeat')
+ap_heading_pitch_repeat_delay = 250 --ms
+ap_heading_pitch_repeat_interval = 50 --ms
+
 -- state vars
 left_mh_val = 0
 right_mh_val = 0
@@ -430,17 +446,27 @@ mapper.set_primary_mappings{
     {
         event = ap_heading_pitch,
         action = function(_, val)
-            if val == 0 then
-                msfs.mfwasm.execute_rpn('(>K:AP_VS_VAR_INC)')
-            elseif val == 18000 then
-                msfs.mfwasm.execute_rpn('(>K:AP_VS_VAR_DEC)')
-            elseif val == 9000 then
-                msfs.mfwasm.execute_rpn('(>K:HEADING_BUG_INC)')
-            elseif val == 27000 then
-                msfs.mfwasm.execute_rpn('(>K:HEADING_BUG_DEC)')
+            if val ~= -1 then
+                ap_heading_pitch_action(val)
+                if ap_heading_pitch_last_value == -1 then
+                    mapper.delay(ap_heading_pitch_repeat_delay, function ()
+                        mapper.raise_event(ap_heading_pitch_repeat_event)
+                    end)
+                end
+            end
+            ap_heading_pitch_last_value = val
+        end
+    },
+    {
+        event = ap_heading_pitch_repeat_event,
+        action = function()
+            if ap_heading_pitch_last_value ~= -1 then
+                ap_heading_pitch_action(ap_heading_pitch_last_value)
+                mapper.delay(ap_heading_pitch_repeat_interval, function ()
+                    mapper.raise_event(ap_heading_pitch_repeat_event)
+                end)
             end
         end
     }
-
 
 }
