@@ -167,6 +167,12 @@ ap_hold_heading_toggle = hotas_events.button4.down
 ap_hold_altitute_toggle = hotas_events.button3.down
 ap_hold_pitch_toggle = hotas_events.button5.down
 
+fuel_selector_0 = panel_events.button47.down
+fuel_selector_1 = panel_events.button46.down
+fuel_selector_2 = panel_events.button45.down
+fuel_selector_3 = panel_events.button44.down
+fuel_selector_4 = panel_events.button43.down
+
 ap_heading_pitch_action = function(val)
     if val == 0 then
         -- msfs.mfwasm.execute_rpn('(>K:AP_VS_VAR_INC)') -- doesnt work
@@ -509,6 +515,28 @@ mapper.set_primary_mappings{
     {
         event = cabin_light_off,
         action =  msfs.mfwasm.rpn_executer('0 (>K:CABIN_LIGHTS_OFF)')
+    },
+
+    -- == Fuel gauge selector --
+    {
+        event = fuel_selector_0 ,
+        action =  msfs.mfwasm.rpn_executer('0 (>L:FuelQtyMode)') -- sorta works
+    },
+    {
+        event = fuel_selector_1,
+        action =  msfs.mfwasm.rpn_executer('1 (>L:FuelQtyMode)') -- sorta works
+    },
+    {
+        event = fuel_selector_2,
+        action =  msfs.mfwasm.rpn_executer('2 (>L:FuelQtyMode)') -- sorta works
+    },
+    {
+        event = fuel_selector_3,
+        action =  msfs.mfwasm.rpn_executer('3 (>L:FuelQtyMode)') -- sorta works
+    },
+    {
+        event = fuel_selector_4,
+        action =  msfs.mfwasm.rpn_executer('4 (>L:FuelQtyMode)') -- sorta works
     },
   
 
