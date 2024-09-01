@@ -207,17 +207,17 @@ right_os_val = 0
 os_increment = 2
 
 -- testing the resolutiuon of the clock: ABSOL?UTYE TIME is in full seconds, SIMULATTIN TIME is in fractions
-msfs.mfwasm.execute_rpn('7 (>L:MACIEK_LAST_VOR_OBI_TIME, Number)')
-observed_event1 = mapper.register_event('observed event1')
-observed_event2 = mapper.register_event('observed event2')
-local observed_data = {
-     --{rpn="(E:SIMULATION TIME,Seconds)", event=observed_event, epsilon=1.5},
-     --{rpn="(E:SIMULATION TIME,Number) (L:MACIEK_LAST_VOR_OBI_TIME, Number) -", event=observed_event1},
-    --  {rpn="(E:SIMULATION TIME,Number) (>L:MACIEK_LAST_VOR_OBI_TIME)", event=observed_event2},
-    }
-msfs.mfwasm.add_observed_data(observed_data)
+-- msfs.mfwasm.execute_rpn('7 (>L:MACIEK_LAST_VOR_OBI_TIME, Number)')
+-- observed_event1 = mapper.register_event('observed event1')
+-- observed_event2 = mapper.register_event('observed event2')
+-- local observed_data = {
+--      --{rpn="(E:SIMULATION TIME,Seconds)", event=observed_event, epsilon=1.5},
+--      --{rpn="(E:SIMULATION TIME,Number) (L:MACIEK_LAST_VOR_OBI_TIME, Number) -", event=observed_event1},
+--     --  {rpn="(E:SIMULATION TIME,Number) (>L:MACIEK_LAST_VOR_OBI_TIME)", event=observed_event2},
+--     }
+-- msfs.mfwasm.add_observed_data(observed_data)
 
-mapper.set_primary_mappings{
+beech_mappings = {
 
     -- {
     --     event = observed_event,
@@ -552,7 +552,4 @@ mapper.set_primary_mappings{
     --     event = panel_events.button9.down,
     --     action =  msfs.mfwasm.rpn_executer('0 (>K:LIGHTING_CABIN_1_Set)') --
     -- },
-  
-
-
 }
