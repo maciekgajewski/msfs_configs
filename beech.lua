@@ -539,5 +539,20 @@ mapper.set_primary_mappings{
         action =  msfs.mfwasm.rpn_executer('4 (>L:FuelQtyMode)') -- sorta works
     },
   
+    -- trying to control individual cabin lights
+    -- {
+    --     event = panel_events.button8.down,
+    --     --action =  msfs.mfwasm.rpn_executer('1 (>B:LIGHTING_CABIN_1_Set)') -- does not work
+    --     -- action =  msfs.mfwasm.rpn_executer('1 (>A:BUS LOOKUP INDEX, Number) 1 (A:CIRCUIT CONNECTION ON:22, Bool)') -- does not work
+    --     -- action = function ()
+    --     --     msfs.send_event('LIGHTING_CABIN_1', 1) -- error
+    --     -- end
+    -- },
+    -- {
+    --     event = panel_events.button9.down,
+    --     action =  msfs.mfwasm.rpn_executer('0 (>K:LIGHTING_CABIN_1_Set)') --
+    -- },
+  
+
 
 }
