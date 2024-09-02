@@ -95,8 +95,10 @@ ap_heading_pitch_repeat_delay = 250 --ms
 ap_heading_pitch_repeat_interval = 50 --ms
 
 
-cabin_light_on = panel_events.button17.down
-cabin_light_off = panel_events.button18.down
+cabin_light_pilot_on = panel_events.button17.down
+cabin_light_pilot_off = panel_events.button18.down
+cabin_light_copilot_on = panel_events.button19.down
+cabin_light_copilot_off = panel_events.button20.down
 
 -- state vars
 left_mh_val = 0
@@ -440,12 +442,20 @@ beech_mappings = {
 
     -- == Cabin lights ==
     {
-        event = cabin_light_on,
-        action =  msfs.mfwasm.rpn_executer('0 (>K:CABIN_LIGHTS_ON)')
+        event = cabin_light_pilot_on,
+        action =  msfs.mfwasm.rpn_executer('1 1 (>K:2:CABIN_LIGHTS_SET)') -- first param is the light idx: 1- pilot, 2 - copilot, 3 - passenger cabin
     },
     {
-        event = cabin_light_off,
-        action =  msfs.mfwasm.rpn_executer('0 (>K:CABIN_LIGHTS_OFF)')
+        event = cabin_light_pilot_off,
+        action =  msfs.mfwasm.rpn_executer('1 0 (>K:2:CABIN_LIGHTS_SET)')
+    },
+    {
+        event = cabin_light_copilot_on,
+        action =  msfs.mfwasm.rpn_executer('2 1 (>K:2:CABIN_LIGHTS_SET)') -- first param is the light idx: 1- pilot, 2 - copilot, 3 - passenger cabin
+    },
+    {
+        event = cabin_light_copilot_off,
+        action =  msfs.mfwasm.rpn_executer('2 0 (>K:2:CABIN_LIGHTS_SET)')
     },
 
     -- == Fuel gauge selector --
@@ -469,18 +479,4 @@ beech_mappings = {
         event = fuel_selector_4,
         action =  msfs.mfwasm.rpn_executer('4 (>L:FuelQtyMode)') -- sorta works
     },
-  
-    -- trying to control individual cabin lights
-    -- {
-    --     event = panel_events.button8.down,
-    --     --action =  msfs.mfwasm.rpn_executer('1 (>B:LIGHTING_CABIN_1_Set)') -- does not work
-    --     -- action =  msfs.mfwasm.rpn_executer('1 (>A:BUS LOOKUP INDEX, Number) 1 (A:CIRCUIT CONNECTION ON:22, Bool)') -- does not work
-    --     -- action = function ()
-    --     --     msfs.send_event('LIGHTING_CABIN_1', 1) -- error
-    --     -- end
-    -- },
-    -- {
-    --     event = panel_events.button9.down,
-    --     action =  msfs.mfwasm.rpn_executer('0 (>K:LIGHTING_CABIN_1_Set)') --
-    -- },
-}
+  }

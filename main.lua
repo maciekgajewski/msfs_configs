@@ -103,7 +103,7 @@ hotas_events = hotas:get_events()
 vjoy = mapper.virtual_joystick(1)
 
 vjoy_mixture_1 = vjoy:get_axis('x')
-vjoy_mixture_2 = vjoy:get_axis('y')
+vjoy_mixture_2 = vjoy:get_axis('y') 
 vjoy_prop_1 = vjoy:get_axis('z')
 vjoy_prop_2 = vjoy:get_axis('rx')
 vjoy_throttle_1 = vjoy:get_axis('ry')
@@ -140,16 +140,21 @@ mapper.set_primary_mappings({
     {
         event = mapper.events.change_aircraft,
         action = function(_, at) 
-            if is_beech(at.aircraft) then
-                mapper.print('Beech!')
-                require('beech')
-                mapper.set_secondary_mappings(beech_mappings)
-            elseif is_wilga(at.aircraft) then
-                mapper.print('Wilga!')
-                require('wilga')
-                mapper.set_secondary_mappings(wilga_mappings)
+            if at.aircraft then
+                if is_beech(at.aircraft) then
+                    mapper.print('Beech!')
+                    require('beech')
+                    mapper.set_secondary_mappings(beech_mappings)
+                elseif is_wilga(at.aircraft) then
+                    mapper.print('Wilga!')
+                    require('wilga')
+                    mapper.set_secondary_mappings(wilga_mappings)
+                else
+                    mapper.print('Unsupported aircraft')
+                    mapper.set_secondary_mappings({})
+                end
             else
-                mapper.print('Unsupported aircraft')
+                mapper.print('Sim disconnected')
                 mapper.set_secondary_mappings({})
             end
         end
