@@ -9,6 +9,29 @@ flaps_mid = hotas_events.button22.up
 flaps_mid_alt = hotas_events.button23.up
 flaps_down = hotas_events.button23.down
 
+landing_light_on = hotas_events.button25.down
+landing_light_off = hotas_events.button25.up
+
+fd_toggle = hotas_events.button15.up
+fd_heading_pitch = hotas_events.pov1.change
+
+fd_heading_pitch_action = function(val)
+    if val == 0 then
+        -- msfs.mfwasm.execute_rpn('(>K:AP_VS_VAR_INC)') -- doesnt work
+          msfs.mfwasm.execute_rpn('(>K:AP_PITCH_REF_INC_UP)') -- doesnt work
+         --msfs.mfwasm.execute_rpn('(>K:AP_VS_VAR_SET_CURRENT)') -- doesnt work
+
+    elseif val == 18000 then
+        msfs.mfwasm.execute_rpn('(>K:AP_VS_VAR_DEC)')
+    elseif val == 9000 then
+        msfs.mfwasm.execute_rpn('(>K:HEADING_BUG_INC)')
+    elseif val == 27000 then
+        msfs.mfwasm.execute_rpn('(>K:HEADING_BUG_DEC)')
+    end
+end
+
+cooling_shutter_axis = panel_events.ry.change
+
 wilga_mappings = {
 
     -- == Axes ==
@@ -62,6 +85,38 @@ wilga_mappings = {
         action =  msfs.mfwasm.rpn_executer('(>K:FLAPS_DOWN)')
     },
 
+    -- == Landing light ==
+    {
+        event = landing_light_on,
+        action =  msfs.mfwasm.rpn_executer('0 (>K:LANDING_LIGHTS_ON)')
+    },
+    {
+        event = landing_light_off,
+        action =  msfs.mfwasm.rpn_executer('0 (>K:LANDING_LIGHTS_OFF)')
+    },
+
+    -- == Flight Director ==
+    {
+        event = fd_toggle,
+        action =  msfs.mfwasm.rpn_executer('0 (>K:TOGGLE_RECOGNITION_LIGHTS)')
+    },
+    {
+        event = fd_heading_pitch,
+        action = function(_, val) fd_heading_pitch_action(val) end
+    },
+
+    -- == Shutters ==
+    {
+        event = cooling_shutter_axis,
+        action = filter.lerp(
+            function(_, val) 
+                msfs.send_event('SPOILERS_SET', val) -- this works. Why doesnt event sender?
+            end,
+            {
+                {-50000, 0},
+                {50000, 16383}
+            })
+    },
 
     -- TODO add all the rest, go crazy :) 
 }

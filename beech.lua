@@ -62,24 +62,23 @@ flaps_mid = hotas_events.button22.up
 flaps_mid_alt = hotas_events.button23.up
 flaps_down = hotas_events.button23.down
 
-ap_master_toggle = hotas_events.button15.down
-ap_heading_pitch = hotas_events.pov1.change
-ap_hold_heading_toggle = hotas_events.button4.down
-ap_hold_altitute_toggle = hotas_events.button3.down
-ap_hold_pitch_toggle = hotas_events.button5.down
-
 fuel_selector_0 = panel_events.button47.down
 fuel_selector_1 = panel_events.button46.down
 fuel_selector_2 = panel_events.button45.down
 fuel_selector_3 = panel_events.button44.down
 fuel_selector_4 = panel_events.button43.down
 
+ap_master_toggle = hotas_events.button15.down
+ap_heading_pitch = hotas_events.pov1.change
+ap_hold_heading_toggle = hotas_events.button4.down
+ap_hold_altitute_toggle = hotas_events.button3.down
+ap_hold_pitch_toggle = hotas_events.button5.down
+
 ap_heading_pitch_action = function(val)
     if val == 0 then
         -- msfs.mfwasm.execute_rpn('(>K:AP_VS_VAR_INC)') -- doesnt work
           msfs.mfwasm.execute_rpn('(>K:AP_PITCH_REF_INC_UP)') -- doesnt work
          --msfs.mfwasm.execute_rpn('(>K:AP_VS_VAR_SET_CURRENT)') -- doesnt work
-         
 
     elseif val == 18000 then
         msfs.mfwasm.execute_rpn('(>K:AP_VS_VAR_DEC)')
