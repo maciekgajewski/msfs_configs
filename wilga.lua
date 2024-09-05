@@ -17,10 +17,7 @@ fd_heading_pitch = hotas_events.pov1.change
 
 fd_heading_pitch_action = function(val)
     if val == 0 then
-        -- msfs.mfwasm.execute_rpn('(>K:AP_VS_VAR_INC)') -- doesnt work
-          msfs.mfwasm.execute_rpn('(>K:AP_PITCH_REF_INC_UP)') -- doesnt work
-         --msfs.mfwasm.execute_rpn('(>K:AP_VS_VAR_SET_CURRENT)') -- doesnt work
-
+        msfs.mfwasm.execute_rpn('(>K:AP_VS_VAR_INC)')
     elseif val == 18000 then
         msfs.mfwasm.execute_rpn('(>K:AP_VS_VAR_DEC)')
     elseif val == 9000 then
