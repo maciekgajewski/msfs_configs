@@ -187,13 +187,15 @@ beech_mappings = {
         -- action = msfs.mfwasm.rpn_executer('1 (>K:INSTRUMENT_SW_COVER_STARTER_Position, Number)')
         -- action = msfs.mfwasm.rpn_executer('1 (>K:INSTRUMENT_SW_COVER_STARTER, Bool)') -- nope
         --action = msfs.mfwasm.rpn_executer('1 (>K:INSTRUMENT_SW_COVER_STARTER_Set, Number)') -- nope
-        action = function ()
-            --msfs.send_event('INSTRUMENT_SW_COVER_STARTER_Set', 1)
-            -- msfs.send_event('INSTRUMENT_SW_COVER_STARTER', 1)
-            --msfs.send_event('INSTRUMENT_SW_COVER_STARTER_Set', 1.0)
-            -- msfs.mfwasm.execute_rpn('1 (>K:INSTRUMENT_SW_COVER_STARTER, Enum)') -- I don't know hot do it
-             msfs.mfwasm.execute_rpn('1 (>L:CARVAR_SW_Cover_Starter, Number)') -- changes var, does not change the state
-        end
+        -- action = function ()
+        --     --msfs.send_event('INSTRUMENT_SW_COVER_STARTER_Set', 1)
+        --     -- msfs.send_event('INSTRUMENT_SW_COVER_STARTER', 1)
+        --     --msfs.send_event('INSTRUMENT_SW_COVER_STARTER_Set', 1.0)
+        --     -- msfs.mfwasm.execute_rpn('1 (>K:INSTRUMENT_SW_COVER_STARTER, Enum)') -- I don't know hot do it
+        --      msfs.mfwasm.execute_rpn('1 (>L:CARVAR_SW_Cover_Starter, Number)') -- changes var, does not change the state
+        -- end
+        --action = msfs.mfwasm.rpn_executer('1 (>K:SW_COVER_STARTER, Integer)')
+        action = msfs.mfwasm.rpn_executer('1 (>L:CARVAR_SW_Cover_Starter)') -- no idee why this doesnt work
     },
 
     -- dont know how to operatre primer
