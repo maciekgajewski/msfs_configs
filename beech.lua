@@ -207,13 +207,15 @@ beech_mappings = {
     -- },
 
 
-    -- == Cowl flaps
-    -- {
-    --     event = cowl_flap_left_toggle,
-    --     -- action = msfs.mfwasm.rpn_executer('100 (>L:CARVAR_cowlflap_l, Number)') -- flickers
-    --     --action = msfs.mfwasm.rpn_executer('100 (>L:CARAUX_ENG_COWLFLAP_POSITION_1, Number)') -- flickers var
-    --     action = msfs.mfwasm.rpn_executer('1 (>K:INSTRUMENT_HANDLING_CowlFlap_1_Position, Number)') -- flickers var
-    -- }, -- i dont know
+    -- == Cowl flaps ==
+    {
+        event = cowl_flap_left_toggle,
+        action = msfs.mfwasm.rpn_executer('(A:RECIP ENG COWL FLAP POSITION:1,Percent) 0 == if{ 16384 (>K:COWLFLAP1_SET) } els{ 0 (>K:COWLFLAP1_SET)  }')
+    }, 
+    {
+        event = cowl_flap_right_toggle,
+        action = msfs.mfwasm.rpn_executer('(A:RECIP ENG COWL FLAP POSITION:2,Percent) 0 == if{ 16384 (>K:COWLFLAP2_SET) } els{ 0 (>K:COWLFLAP2_SET)  }')
+    }, 
 
     -- === Fuel boosters ==
     {
