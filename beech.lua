@@ -57,6 +57,9 @@ landing_light_off = hotas_events.button27.up
 landing_light_off_alt = hotas_events.button28.up
 landing_light_retracted = hotas_events.button28.down
 
+no_smoking_light_toggle = panel_events.button3.down
+beacon_light_toggle = panel_events.button4.down
+
 flaps_up = hotas_events.button22.down
 flaps_mid = hotas_events.button22.up
 flaps_mid_alt = hotas_events.button23.up
@@ -98,6 +101,10 @@ cabin_light_pilot_on = panel_events.button17.down
 cabin_light_pilot_off = panel_events.button18.down
 cabin_light_copilot_on = panel_events.button19.down
 cabin_light_copilot_off = panel_events.button20.down
+
+ignition_cover_toggle = panel_events.button6.down
+cowl_flap_left_toggle = panel_events.button5.down
+cowl_flap_right_toggle = panel_events.button7.down
 
 -- state vars
 left_mh_val = 0
@@ -158,6 +165,7 @@ beech_mappings = {
         action = vjoy_elevator_trim:value_setter()
     },
 
+    -- == Engine igniotion/primer ==
     {
         event = selector_left,
         action = msfs.mfwasm.rpn_executer('0 (>L:CARVAR_SW_STARTER_LR, Number) 0 (>L:CARVAR_SW_PRIMER_LR, Number)')
@@ -170,6 +178,24 @@ beech_mappings = {
         event = selector_right,
         action = msfs.mfwasm.rpn_executer('2 (>L:CARVAR_SW_STARTER_LR, Number) 2 (>L:CARVAR_SW_PRIMER_LR, Number)')
     },
+    {
+        event = ignition_cover_toggle,
+        -- action = msfs.mfwasm.rpn_executer('1 (>B:INSTRUMENT_SW_COVER_STARTER)') -- nope
+        -- action = msfs.mfwasm.rpn_executer('1 (>L:INSTRUMENT_SW_COVER_STARTER_Set)') -- nope
+        -- action = msfs.mfwasm.rpn_executer('1 (>K:INSTRUMENT_SW_COVER_STARTER_SET)') -- nope
+        --action = msfs.mfwasm.rpn_executer('1 (>L:INSTRUMENT_SW_COVER_STARTER_Position, Number)')
+        -- action = msfs.mfwasm.rpn_executer('1 (>K:INSTRUMENT_SW_COVER_STARTER_Position, Number)')
+        -- action = msfs.mfwasm.rpn_executer('1 (>K:INSTRUMENT_SW_COVER_STARTER, Bool)') -- nope
+        --action = msfs.mfwasm.rpn_executer('1 (>K:INSTRUMENT_SW_COVER_STARTER_Set, Number)') -- nope
+        action = function ()
+            --msfs.send_event('INSTRUMENT_SW_COVER_STARTER_Set', 1)
+            -- msfs.send_event('INSTRUMENT_SW_COVER_STARTER', 1)
+            --msfs.send_event('INSTRUMENT_SW_COVER_STARTER_Set', 1.0)
+            -- msfs.mfwasm.execute_rpn('1 (>K:INSTRUMENT_SW_COVER_STARTER, Enum)') -- I don't know hot do it
+             msfs.mfwasm.execute_rpn('1 (>L:CARVAR_SW_Cover_Starter, Number)') -- changes var, does not change the state
+        end
+    },
+
     -- dont know how to operatre primer
     -- {
     --     event = primer_button,
@@ -180,6 +206,14 @@ beech_mappings = {
 
     -- },
 
+
+    -- == Cowl flaps
+    -- {
+    --     event = cowl_flap_left_toggle,
+    --     -- action = msfs.mfwasm.rpn_executer('100 (>L:CARVAR_cowlflap_l, Number)') -- flickers
+    --     --action = msfs.mfwasm.rpn_executer('100 (>L:CARAUX_ENG_COWLFLAP_POSITION_1, Number)') -- flickers var
+    --     action = msfs.mfwasm.rpn_executer('1 (>K:INSTRUMENT_HANDLING_CowlFlap_1_Position, Number)') -- flickers var
+    -- }, -- i dont know
 
     -- === Fuel boosters ==
     {
@@ -370,6 +404,10 @@ beech_mappings = {
         event = landing_light_retracted,
         action =  msfs.mfwasm.rpn_executer('2 (>L:XMLVAR_LANDINGRETRACTSTATE)')
     },
+    {
+        event = beacon_light_toggle,
+        action = msfs.mfwasm.rpn_executer('(>K:TOGGLE_BEACON_LIGHTS)') 
+    },
 
     -- == Autopilot ==
 -- ap_master_toggle = hotas_events.button15.down
@@ -456,6 +494,10 @@ beech_mappings = {
         event = cabin_light_copilot_off,
         action =  msfs.mfwasm.rpn_executer('2 0 (>K:2:CABIN_LIGHTS_SET)')
     },
+    {
+        event = no_smoking_light_toggle,
+        action = msfs.mfwasm.rpn_executer('3 (A:LIGHT CABIN:3,Bool) ! (>K:2:CABIN_LIGHTS_SET)')
+    },
 
     -- == Fuel gauge selector --
     {
@@ -478,4 +520,5 @@ beech_mappings = {
         event = fuel_selector_4,
         action =  msfs.mfwasm.rpn_executer('4 (>L:FuelQtyMode)') -- sorta works
     },
+
   }
