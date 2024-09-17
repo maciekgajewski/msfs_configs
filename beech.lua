@@ -60,6 +60,9 @@ landing_light_retracted = hotas_events.button28.down
 no_smoking_light_toggle = panel_events.button3.down
 beacon_light_toggle = panel_events.button4.down
 
+nav_lights_steady = panel_events.button22.down
+nav_lights_flashing = panel_events.button21.down
+
 flaps_up = hotas_events.button22.down
 flaps_mid = hotas_events.button22.up
 flaps_mid_alt = hotas_events.button23.up
@@ -524,5 +527,16 @@ beech_mappings = {
         event = fuel_selector_4,
         action =  msfs.mfwasm.rpn_executer('4 (>L:FuelQtyMode)') -- sorta works
     },
+
+    -- == Nav Lights ==
+    {
+        event = nav_lights_flashing,
+        action =  msfs.mfwasm.rpn_executer('0 (>L:XMLVAR_LandingNavFlashing) (A:LIGHT NAV,bool) 0 == if{ (>TOGGLE_NAV_LIGHTS) } (A:CIRCUIT ON:12, bool) 0 != if{ 12 (>K:ELECTRICAL_CIRCUIT_TOGGLE) } (A:CIRCUIT ON:61, bool) 0 == if{ 61 (>K:ELECTRICAL_CIRCUIT_TOGGLE) }')
+    },
+    {
+        event = nav_lights_steady,
+        action =  msfs.mfwasm.rpn_executer('2 (>L:XMLVAR_LandingNavFlashing) (A:LIGHT NAV,bool) 0 == if{ (>TOGGLE_NAV_LIGHTS) } (A:CIRCUIT ON:12, bool) 0 == if{ 12 (>K:ELECTRICAL_CIRCUIT_TOGGLE) } (A:CIRCUIT ON:61, bool) 0 != if{ 61 (>K:ELECTRICAL_CIRCUIT_TOGGLE) }')
+    },
+
 
   }
