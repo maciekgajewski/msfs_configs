@@ -27,6 +27,12 @@ fd_heading_pitch_action = function(val)
     end
 end
 
+heading_bug_inc = panel_events.button39.down
+heading_bug_dec = panel_events.button38.down
+
+tablet_hide = hotas_events.button20.up
+tablet_show = hotas_events.button20.down
+
 cooling_shutter_axis = panel_events.ry.change
 
 wilga_mappings = {
@@ -113,6 +119,16 @@ wilga_mappings = {
                 {-50000, 0},
                 {50000, 16383}
             })
+    },
+
+    -- == Tablet visibility ==
+    {
+        event = tablet_hide,
+        action = msfs.mfwasm.rpn_executer('1 (>L:TABLET_HIDDEN)')
+    },
+    {
+        event = tablet_show,
+        action = msfs.mfwasm.rpn_executer('0 (>L:TABLET_HIDDEN)')
     },
 
     -- TODO add all the rest, go crazy :) 
