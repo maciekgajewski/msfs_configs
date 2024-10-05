@@ -1,5 +1,5 @@
 
--- wilga bindings
+-- == Bindings for Got Firends Wilga ==
 
 parking_brake_on = hotas_events.button24.up
 parking_brake_off = hotas_events.button24.down

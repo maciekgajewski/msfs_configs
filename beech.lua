@@ -1,12 +1,5 @@
--- mapper.print("== Events BEGIN ==")
--- for k,v in pairs(panel_events.button32) do
---     mapper.print(k)
--- end
--- mapper.print("== Events END ==")
+-- == Bindinsgs for Beech 18 witd Denarque mod ==
 
--- local my_event = mapper.register_event('My Event')
-
--- beech mappings
 selector_left = panel_events.button31.down
 selector_center = panel_events.button32.down
 selector_right = panel_events.button33.down
@@ -59,6 +52,7 @@ landing_light_retracted = hotas_events.button28.down
 
 no_smoking_light_toggle = panel_events.button3.down
 beacon_light_toggle = panel_events.button4.down
+cabin_light_toggle = panel_events.button1.down
 
 nav_lights_steady = panel_events.button22.down
 nav_lights_flashing = panel_events.button21.down
@@ -503,6 +497,15 @@ beech_mappings = {
     },
     {
         event = no_smoking_light_toggle,
+        action = msfs.mfwasm.rpn_executer('(L:CARVAR_Seatbealt) 1 == if{ 0 (>L:CARVAR_Seatbealt,Bool) 0 (>K:CABIN_NO_SMOKING_ALERT_SWITCH_TOGGLE) 0 (>K:CABIN_SEATBELTS_ALERT_SWITCH_TOGGLE) } els{ 1 (>L:CARVAR_Seatbealt,Bool) 1 (>K:CABIN_NO_SMOKING_ALERT_SWITCH_TOGGLE) 1 (>K:CABIN_SEATBELTS_ALERT_SWITCH_TOGGLE) }') 
+        -- action = msfs.mfwasm.rpn_executer('1 (>L:CARVAR_Seatbealt,Bool)') -- does nuthn
+        -- action = msfs.mfwasm.rpn_executer('1 (>K:CABIN_NO_SMOKING_ALERT_SWITCH_TOGGLE)') -- nada
+        -- action = msfs.mfwasm.rpn_executer('1 (>K:CABIN_SEATBELTS_ALERT_SWITCH_TOGGLE)')
+        -- action = msfs.mfwasm.rpn_executer('1 (>K:INSTRUMENT_SWITCH_Seatbealt)')
+        
+    },
+    {
+        event = cabin_light_toggle,
         action = msfs.mfwasm.rpn_executer('3 (A:LIGHT CABIN:3,Bool) ! (>K:2:CABIN_LIGHTS_SET)')
     },
 

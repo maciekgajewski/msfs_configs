@@ -125,6 +125,11 @@ function is_wilga(name)
     return string.sub(name, 1, string.len(wilga_prefix)) == wilga_prefix
 end
 
+function is_dc3(name)
+    local dc3_prefix = 'Douglas DC-3'
+    return string.sub(name, 1, string.len(dc3_prefix)) == dc3_prefix
+end
+
 mapper.set_primary_mappings({
     -- common mappings - aircraft agnostic
     {
@@ -142,16 +147,21 @@ mapper.set_primary_mappings({
         action = function(_, at) 
             if at.aircraft then
                 if is_beech(at.aircraft) then
-                    mapper.print('Beech!')
+                    mapper.print('Beech! Loading dedicated mappings...')
                     require('beech')
                     mapper.set_secondary_mappings(beech_mappings)
                 elseif is_wilga(at.aircraft) then
-                    mapper.print('Wilga!')
+                    mapper.print('Wilga! Loading dedicated mappings...')
                     require('wilga')
                     mapper.set_secondary_mappings(wilga_mappings)
+                elseif is_dc3(at.aircraft) then
+                    mapper.print('DC-3! Loading dedicated mappings...')
+                    require('dc3')
+                    mapper.set_secondary_mappings(dc3_mappings)
                 else
-                    mapper.print('Unsupported aircraft')
-                    mapper.set_secondary_mappings({})
+                    mapper.print('Other aircraft. Loading generic mappings')
+                    require('generic')
+                    mapper.set_secondary_mappings(generic_mappings)
                 end
             else
                 mapper.print('Sim disconnected')
