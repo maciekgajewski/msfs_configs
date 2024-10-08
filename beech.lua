@@ -57,10 +57,15 @@ cabin_light_toggle = panel_events.button1.down
 nav_lights_steady = panel_events.button22.down
 nav_lights_flashing = panel_events.button21.down
 
+-- absolute flaps
 flaps_up = hotas_events.button22.down
 flaps_mid = hotas_events.button22.up
 flaps_mid_alt = hotas_events.button23.up
 flaps_down = hotas_events.button23.down
+
+-- incremental flaps
+flaps_dec = hotas_events.button22.down
+flaps_inc = hotas_events.button23.down
 
 fuel_selector_0 = panel_events.button47.down
 fuel_selector_1 = panel_events.button46.down
@@ -461,22 +466,33 @@ beech_mappings = {
     },
 
     -- == Flaps ==
+    -- Absolute - disabled
+    -- {
+    --     event = flaps_up,
+    --     action =  msfs.mfwasm.rpn_executer('(>K:FLAPS_UP)')
+    -- },
+    -- {
+    --     event = flaps_mid,
+    --     action =  msfs.mfwasm.rpn_executer('(>K:FLAPS_1)')
+    -- },
+    -- {
+    --     event = flaps_mid_alt,
+    --     action =  msfs.mfwasm.rpn_executer('(>K:FLAPS_1)')
+    -- },
+    -- {
+    --     event = flaps_down,
+    --     action =  msfs.mfwasm.rpn_executer('(>K:FLAPS_DOWN)')
+    -- },
+    -- Incremental
     {
-        event = flaps_up,
-        action =  msfs.mfwasm.rpn_executer('(>K:FLAPS_UP)')
+        event = flaps_inc,
+        action =  msfs.mfwasm.rpn_executer('(>K:FLAPS_INCR)')
     },
     {
-        event = flaps_mid,
-        action =  msfs.mfwasm.rpn_executer('(>K:FLAPS_1)')
+        event = flaps_dec,
+        action =  msfs.mfwasm.rpn_executer('(>K:FLAPS_DECR)')
     },
-    {
-        event = flaps_mid_alt,
-        action =  msfs.mfwasm.rpn_executer('(>K:FLAPS_1)')
-    },
-    {
-        event = flaps_down,
-        action =  msfs.mfwasm.rpn_executer('(>K:FLAPS_DOWN)')
-    },
+    
 
     -- == Cabin lights ==
     {
