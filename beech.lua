@@ -79,6 +79,13 @@ ap_hold_heading_toggle = hotas_events.button4.down
 ap_hold_altitute_toggle = hotas_events.button3.down
 ap_hold_pitch_toggle = hotas_events.button5.down
 
+-- radio
+freq_knob_inc = panel_events.button42.down
+freq_knob_dec = panel_events.button41.down
+freq_knob_press = panel_events.button40.down
+freq_swap = panel_events.button13.down
+
+
 ap_heading_pitch_action = function(val)
     if val == 0 then
         -- msfs.mfwasm.execute_rpn('(>K:AP_VS_VAR_INC)') -- doesnt work
@@ -557,5 +564,22 @@ beech_mappings = {
         action =  msfs.mfwasm.rpn_executer('2 (>L:XMLVAR_LandingNavFlashing) (A:LIGHT NAV,bool) 0 == if{ (>TOGGLE_NAV_LIGHTS) } (A:CIRCUIT ON:12, bool) 0 == if{ 12 (>K:ELECTRICAL_CIRCUIT_TOGGLE) } (A:CIRCUIT ON:61, bool) 0 != if{ 61 (>K:ELECTRICAL_CIRCUIT_TOGGLE) }')
     },
 
+    -- == Radio ==
+    {
+        event = freq_knob_inc,
+        action = msfs.mfwasm.rpn_executer('(L:MACIEK_SET_COM_WHOLE, Numeric) 1 == if{ (>K:COM_RADIO_WHOLE_INC) } els{ (>K:COM_RADIO_FRACT_INC) }')
+    },
+    {
+        event = freq_knob_dec,
+        action = msfs.mfwasm.rpn_executer('(L:MACIEK_SET_COM_WHOLE, Numeric) 1 == if{ (>K:COM_RADIO_WHOLE_DEC) } els{ (>K:COM_RADIO_FRACT_DEC) }')
+    },
+    {
+        event = freq_knob_press,
+        action = msfs.mfwasm.rpn_executer('(L:MACIEK_SET_COM_WHOLE, Numeric) 1 == if{ 0 (>L:MACIEK_SET_COM_WHOLE, Numeric) } els{ 1 (>L:MACIEK_SET_COM_WHOLE, Numeric) }')
+    },
+    {
+        event = freq_swap,
+        action = msfs.mfwasm.rpn_executer('(>K:COM1_RADIO_SWAP)')
+    }
 
   }
