@@ -1,4 +1,5 @@
--- generic bindings for any other plane
+-- Bindings for A2A Aerostar
+
 
 parking_brake_on = hotas_events.button24.up
 parking_brake_off = hotas_events.button24.down
@@ -10,6 +11,16 @@ flaps_up = hotas_events.button22.down
 flaps_mid = hotas_events.button22.up
 flaps_mid_alt = hotas_events.button23.up
 flaps_down = hotas_events.button23.down
+
+
+left_fuel_sel_off = panel_events.button14.down
+left_fuel_sel_on = panel_events.button15.down
+left_fuel_sel_xfeed = panel_events.button16.down
+
+right_fuel_sel_off = panel_events.button34.down
+right_fuel_sel_on = panel_events.button35.down
+right_fuel_sel_xfeed = panel_events.button36.down
+
 
 aerostar_mappings = {
 
@@ -47,9 +58,6 @@ aerostar_mappings = {
         action = vjoy_elevator_trim:value_setter()
     },
 
-
-    -- TODO
-
     -- == Wheels ==
     {
         event = parking_brake_on,
@@ -86,4 +94,32 @@ aerostar_mappings = {
         action =  msfs.mfwasm.rpn_executer('(>K:FLAPS_DOWN)')
     },
     
+    -- == Fuel selectors ==
+
+    {
+        event = left_fuel_sel_off,
+        action = msfs.mfwasm.rpn_executer('0 (>L:Eng1_FuelSelector, Number)'),
+    },
+    {
+        event = left_fuel_sel_on,
+        action = msfs.mfwasm.rpn_executer('1 (>L:Eng1_FuelSelector, Number)'),
+    },
+    {
+        event = left_fuel_sel_xfeed,
+        action = msfs.mfwasm.rpn_executer('2 (>L:Eng1_FuelSelector, Number)'),
+    },
+
+    {
+        event = right_fuel_sel_off,
+        action = msfs.mfwasm.rpn_executer('0 (>L:Eng2_FuelSelector, Number)'),
+    },
+    {
+        event = right_fuel_sel_on,
+        action = msfs.mfwasm.rpn_executer('1 (>L:Eng2_FuelSelector, Number)'),
+    },
+    {
+        event = right_fuel_sel_xfeed,
+        action = msfs.mfwasm.rpn_executer('2 (>L:Eng2_FuelSelector, Number)'),
+    },
+
 }
