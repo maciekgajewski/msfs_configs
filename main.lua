@@ -130,6 +130,11 @@ function is_dc3(name)
     return string.sub(name, 1, string.len(dc3_prefix)) == dc3_prefix
 end
 
+function is_aerostar(name)
+    local aerostar_prefix = 'A2A Piper Aerostar 600'
+    return string.sub(name, 1, string.len(aerostar_prefix)) == aerostar_prefix
+end
+
 mapper.set_primary_mappings({
     -- common mappings - aircraft agnostic
     {
@@ -141,7 +146,7 @@ mapper.set_primary_mappings({
         action = vjoy:get_button(2):value_setter()
     },
 
-    -- loading aricraft specific ones
+    -- loading aircraft specific ones
     {
         event = mapper.events.change_aircraft,
         action = function(_, at) 
@@ -158,6 +163,10 @@ mapper.set_primary_mappings({
                     mapper.print('DC-3! Loading dedicated mappings...')
                     require('dc3')
                     mapper.set_secondary_mappings(dc3_mappings)
+                elseif is_aerostar(at.aircraft) then
+                    mapper.print('Aerostar! Loading dedicated mappings...')
+                    require('aerostar')
+                    mapper.set_secondary_mappings(aerostar_mappings)
                 else
                     mapper.print('Other aircraft. Loading generic mappings')
                     require('generic')
