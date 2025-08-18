@@ -21,6 +21,13 @@ right_fuel_sel_off = panel_events.button34.down
 right_fuel_sel_on = panel_events.button35.down
 right_fuel_sel_xfeed = panel_events.button36.down
 
+left_fuel_booster_on = hotas_events.button16.down
+left_fuel_booster_off = hotas_events.button16.up
+
+right_fuel_booster_on = hotas_events.button17.down
+right_fuel_booster_off = hotas_events.button17.up
+
+
 
 aerostar_mappings = {
 
@@ -121,5 +128,25 @@ aerostar_mappings = {
         event = right_fuel_sel_xfeed,
         action = msfs.mfwasm.rpn_executer('2 (>L:Eng2_FuelSelector, Number)'),
     },
+
+    -- == Fuel Boosters == --
+
+    {
+        event = left_fuel_booster_on,
+        action = msfs.mfwasm.rpn_executer('(L:Eng1_FuelBoostSwitch, Bool) 0 == if{ 1 (>K:TOGGLE_ELECT_FUEL_PUMP1) }')
+    },
+    {
+        event = left_fuel_booster_off,
+        action = msfs.mfwasm.rpn_executer('(L:Eng1_FuelBoostSwitch, Bool) 1 == if{ 1 (>K:TOGGLE_ELECT_FUEL_PUMP1) }')
+    },
+    {
+        event = right_fuel_booster_on,
+        action = msfs.mfwasm.rpn_executer('(L:Eng2_FuelBoostSwitch, Bool) 0 == if{ 1 (>K:TOGGLE_ELECT_FUEL_PUMP2) }')
+    },
+    {
+        event = right_fuel_booster_off,
+        action = msfs.mfwasm.rpn_executer('(L:Eng2_FuelBoostSwitch, Bool) 1 == if{ 1 (>K:TOGGLE_ELECT_FUEL_PUMP2) }')
+    },
+
 
 }
