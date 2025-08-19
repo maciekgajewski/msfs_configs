@@ -78,6 +78,13 @@ hsi_cdi_dec = panel_events.button38.down
 landing_light_on = hotas_events.button27.down
 landing_light_off = hotas_events.button28.down
 
+map_light_inc           = panel_events.button17.down
+map_light_dec           = panel_events.button18.down
+instr_light_outer_inc   = panel_events.button19.down    
+instr_light_outer_dec   = panel_events.button20.down
+instr_light_inner_inc   = panel_events.button21.down
+instr_light_inner_dec   = panel_events.button22.down
+
 aerostar_mappings = {
 
     -- == Axes --  ( for generic, 2-engine, possibly prop plane)
@@ -313,6 +320,38 @@ aerostar_mappings = {
         event = landing_light_off,
         action = msfs.mfwasm.rpn_executer('(>B:SWITCH_LIGHT_LANDING_L_TOGGLE_Dec) (>B:SWITCH_LIGHT_LANDING_R_TOGGLE_Dec)')
     },
+    {
+        event = map_light_inc,
+        action = msfs.mfwasm.rpn_executer('(L:LightMapKnob, Number) 5 + 100 min (>L:LightMapKnob, Number)')
+    },
+    {
+        event = map_light_dec,
+        action = msfs.mfwasm.rpn_executer('(L:LightMapKnob, Number) 5 - 0 max (>L:LightMapKnob, Number)')
+    },
+    {
+        event = instr_light_outer_inc,
+        action = msfs.mfwasm.rpn_executer('(>B:KNOB_LIGHT_INSTRUMENT_OUTER_DRAG_Inc)')
+    },
+    {
+        event = instr_light_outer_dec,
+        action = msfs.mfwasm.rpn_executer('1 (>B:KNOB_LIGHT_INSTRUMENT_OUTER_DRAG_Dec)')
+    },
+    {
+        event = instr_light_inner_inc,
+        action = msfs.mfwasm.rpn_executer('(>B:KNOB_LIGHT_INSTRUMENT_INNER_DRAG_Inc)')
+    },
+    {
+        event = instr_light_inner_dec,
+        action = msfs.mfwasm.rpn_executer('1 (>B:KNOB_LIGHT_INSTRUMENT_INNER_DRAG_Dec)')
+    },
+
+
+-- map_light_inc           = hotas_events.button17.down
+-- map_light_dec           = hotas_events.button17.down
+-- instr_light_outer_inc   = hotas_events.button19.down    
+-- instr_light_outer_dec   = hotas_events.button20.down
+-- instr_light_inner_inc   = hotas_events.button21.down
+-- instr_light_inner_dec   = hotas_events.button22.down
 
 
 }
