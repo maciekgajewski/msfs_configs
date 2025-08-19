@@ -13,13 +13,13 @@ flaps_mid_alt = hotas_events.button23.up
 flaps_down = hotas_events.button23.down
 
 
-left_fuel_sel_off = panel_events.button14.down
+left_fuel_sel_off = panel_events.button16.down
 left_fuel_sel_on = panel_events.button15.down
-left_fuel_sel_xfeed = panel_events.button16.down
+left_fuel_sel_xfeed = panel_events.button14.down
 
-right_fuel_sel_off = panel_events.button34.down
+right_fuel_sel_off = panel_events.button36.down
 right_fuel_sel_on = panel_events.button35.down
-right_fuel_sel_xfeed = panel_events.button36.down
+right_fuel_sel_xfeed = panel_events.button34.down
 
 left_fuel_booster_on = hotas_events.button16.down
 left_fuel_booster_off = hotas_events.button16.up
@@ -27,6 +27,49 @@ left_fuel_booster_off = hotas_events.button16.up
 right_fuel_booster_on = hotas_events.button17.down
 right_fuel_booster_off = hotas_events.button17.up
 
+left_magneto_off =  hotas_events.button18.down
+left_magneto_both =  hotas_events.button18.up
+left_magneto_both_alt =  hotas_events.button31.up
+left_magneto_start =  hotas_events.button31.down
+
+right_magneto_off =  hotas_events.button19.down
+right_magneto_both =  hotas_events.button19.up
+right_magneto_both_alt =  hotas_events.button32.up
+right_magneto_start =  hotas_events.button32.down
+
+-- AP mode buttons. Both up and down
+ap_onoff_down = hotas_events.button15.down
+ap_onoff_up = hotas_events.button15.up
+
+ap_hold_heading_down = hotas_events.button4.down
+ap_hold_heading_up = hotas_events.button4.up
+
+ap_hold_altitude_down = hotas_events.button3.down
+ap_hold_altitude_up = hotas_events.button3.up
+
+ap_hold_att_down = hotas_events.button5.down
+ap_hold_att_up = hotas_events.button5.up
+
+ap_heading_pitch_event = hotas_events.pov1.change
+ap_heading_pitch_action = function(val)
+    if val == 0 then
+        -- up
+        msfs.mfwasm.execute_rpn('(L:ApPitch, Number) -100 > if{ (L:ApPitch, Number) 10 - (>L:ApPitch, Number) }')
+    elseif val == 18000 then
+        -- down
+        msfs.mfwasm.execute_rpn('(L:ApPitch, Number) 100 < if{ (L:ApPitch, Number) 10 + (>L:ApPitch, Number) }')
+    elseif val == 9000 then
+        -- right
+        msfs.mfwasm.execute_rpn('(>K:HEADING_BUG_INC)')
+    elseif val == 27000 then
+        -- left
+        msfs.mfwasm.execute_rpn('(>K:HEADING_BUG_DEC)')
+    end
+end
+ap_heading_pitch_last_value = -1
+ap_heading_pitch_repeat_event =  mapper.register_event('AP Heading/Pitch repeat')
+ap_heading_pitch_repeat_delay = 250 --ms
+ap_heading_pitch_repeat_interval = 50 --ms
 
 
 aerostar_mappings = {
@@ -148,5 +191,98 @@ aerostar_mappings = {
         action = msfs.mfwasm.rpn_executer('(L:Eng2_FuelBoostSwitch, Bool) 1 == if{ 1 (>K:TOGGLE_ELECT_FUEL_PUMP2) }')
     },
 
+    -- == Magnetos == --
 
+    {
+        event = left_magneto_off,
+        action = msfs.mfwasm.rpn_executer('1 (>K:MAGNETO1_OFF)')
+    },
+    {
+        event = left_magneto_both,
+        action = msfs.mfwasm.rpn_executer('1 (>K:MAGNETO1_BOTH)')
+    },
+    {
+        event = left_magneto_both_alt,
+        action = msfs.mfwasm.rpn_executer('1 (>K:MAGNETO1_BOTH)')
+    },
+    {
+        event = left_magneto_start,
+        action = msfs.mfwasm.rpn_executer('1 (>K:MAGNETO1_START)')
+    },
+
+    {
+        event = right_magneto_off,
+        action = msfs.mfwasm.rpn_executer('1 (>K:MAGNETO2_OFF)')
+    },
+    {
+        event = right_magneto_both,
+        action = msfs.mfwasm.rpn_executer('1 (>K:MAGNETO2_BOTH)')
+    },
+    {
+        event = right_magneto_both_alt,
+        action = msfs.mfwasm.rpn_executer('1 (>K:MAGNETO2_BOTH)')
+    },
+    {
+        event = right_magneto_start,
+        action = msfs.mfwasm.rpn_executer('1 (>K:MAGNETO2_START)')
+    },
+
+    -- == Autopilot == --
+    {
+        event = ap_onoff_down,
+        action = msfs.mfwasm.rpn_executer('1 (>L:ApMasterSwitch, Bool)')
+    },
+    {
+        event = ap_onoff_up,
+        action = msfs.mfwasm.rpn_executer('0 (>L:ApMasterSwitch, Bool)')
+    },
+    {
+        event = ap_hold_heading_down,
+        action = msfs.mfwasm.rpn_executer('1 (>L:ApHdgSwitch, Bool)')
+    },
+    {
+        event = ap_hold_heading_up,
+        action = msfs.mfwasm.rpn_executer('0 (>L:ApHdgSwitch, Bool)')
+    },
+    {
+        event = ap_hold_altitude_down,
+        action = msfs.mfwasm.rpn_executer('1 (>L:ApAltSwitch, Bool)')
+    },
+    {
+        event = ap_hold_altitude_up,
+        action = msfs.mfwasm.rpn_executer('0 (>L:ApAltSwitch, Bool)')
+    },
+    {
+        event = ap_hold_att_down,
+        action = msfs.mfwasm.rpn_executer('1 (>L:ApAttSwitch, Bool)')
+    },
+    {
+        event = ap_hold_att_up,
+        action = msfs.mfwasm.rpn_executer('0 (>L:ApAttSwitch, Bool)')
+    },
+    {
+        event = ap_heading_pitch_event,
+        action = function(_, val)
+            if val ~= -1 then
+                ap_heading_pitch_action(val)
+                if ap_heading_pitch_last_value == -1 then
+                    mapper.delay(ap_heading_pitch_repeat_delay, function ()
+                        mapper.raise_event(ap_heading_pitch_repeat_event)
+                    end)
+                end
+            end
+            ap_heading_pitch_last_value = val
+        end
+    },
+    {
+        event = ap_heading_pitch_repeat_event,
+        action = function()
+            if ap_heading_pitch_last_value ~= -1 then
+                ap_heading_pitch_action(ap_heading_pitch_last_value)
+                mapper.delay(ap_heading_pitch_repeat_interval, function ()
+                    mapper.raise_event(ap_heading_pitch_repeat_event)
+                end)
+            end
+        end
+    },
 }
