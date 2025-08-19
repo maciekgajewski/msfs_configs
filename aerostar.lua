@@ -71,6 +71,9 @@ ap_heading_pitch_repeat_event =  mapper.register_event('AP Heading/Pitch repeat'
 ap_heading_pitch_repeat_delay = 250 --ms
 ap_heading_pitch_repeat_interval = 50 --ms
 
+hsi_cdi_inc = panel_events.button39.down
+hsi_cdi_dec = panel_events.button38.down
+
 
 aerostar_mappings = {
 
@@ -285,4 +288,18 @@ aerostar_mappings = {
             end
         end
     },
+
+
+    -- == HSI == --
+        -- === HSI ===
+    -- increment with single click, increase by 4 when clicking fast
+    {
+        event = hsi_cdi_inc,
+        action = msfs.mfwasm.rpn_executer('(E:SIMULATION TIME,Number) (L:MACIEK_LAST_VOR_OBI_TIME, Number) - 0.5 < if{  1 (>K:VOR1_OBI_INC) 1 (>K:VOR1_OBI_INC) 1 (>K:VOR1_OBI_INC) } 1 (>K:VOR1_OBI_INC) (E:SIMULATION TIME,Number) (>L:MACIEK_LAST_VOR_OBI_TIME)') -- HAHA works!
+    },
+    {
+        event = hsi_cdi_dec,
+        action = msfs.mfwasm.rpn_executer('(E:SIMULATION TIME,Number) (L:MACIEK_LAST_VOR_OBI_TIME, Number) - 0.5 < if{  1 (>K:VOR1_OBI_DEC) 1 (>K:VOR1_OBI_DEC) 1 (>K:VOR1_OBI_DEC) } 1 (>K:VOR1_OBI_DEC) (E:SIMULATION TIME,Number) (>L:MACIEK_LAST_VOR_OBI_TIME)') -- HAHA works!
+    },
+
 }
