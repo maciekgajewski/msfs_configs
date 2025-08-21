@@ -79,58 +79,6 @@ hsi_cdi_dec = panel_events.button38.down
 landing_light_on = hotas_events.button27.down
 landing_light_off = hotas_events.button28.down
 
--- -- Repeating control class
--- RepeatingControl = { engage_event=0,  disengage_event=0, is_engaged=0, action=nil, delay=100 }
-
--- function RepeatingControl:new(eng_ev, dis_ev, act)
---     local o = {}
---     setmetatable(o, self)
---     self.__index = self
---     o.engage_event = eng_ev
---     o.disengage_event = dis_ev
---     o.action = act
---     o.is_engaged = 0
---     return o
--- end
-
--- function RepeatingControl:engage_action()
---     return function() self:do_engage() end
--- end
-
--- function RepeatingControl:disengage_action()
---     return function() self:do_disengage() end
--- end
-
--- function RepeatingControl:do_engage()
---     mapper.print('engage, self type=')
---     mapper.print(type(self))
-
---     local f
---     f = function()
---         self.action()
---         mapper.print('inside f, f type=')
---         mapper.print(type(f))
---         if self.is_engaged == 1 then
---             mapper.delay(self.delay, f)
---         end
---     end
-
---     if self.is_engaged == 0 then
---         mapper.print('first engage')
---         self.is_engaged = 1
---         f()
---     end
---     self.is_engaged = 1
--- end
-
-
--- function RepeatingControl:do_disengage()
---     mapper.print('disengage')
---     self.is_engaged = 0
--- end
-
--- this throw: "attempt to call NAtive Action". Will use lua function instead
---map_light_control = RepeatingControl:new(panel_events.button17.down, panel_events.button17.up, msfs.mfwasm.rpn_executer('(L:LightMapKnob, Number) 5 - 0 max (>L:LightMapKnob, Number)'))
 map_light_inc_control = RepeatingControl:new(
     panel_events.button17.down, 
     panel_events.button17.up, 
@@ -139,14 +87,13 @@ map_light_inc_control = RepeatingControl:new(
     end
 )
 
-
-map_light_inc           = panel_events.button17.down
-map_light_inc_release   = panel_events.button17.up
-map_light_inc_engaged   = 0
-
-map_light_dec           = panel_events.button18.down
-map_light_dec_release   = panel_events.button18.up
-map_light_dec_engaged   = 0
+map_light_dec_control = RepeatingControl:new(
+    panel_events.button18.down, 
+    panel_events.button18.up, 
+    function ()
+        msfs.mfwasm.execute_rpn('(L:LightMapKnob, Number) 5 - 0 max (>L:LightMapKnob, Number)')
+    end
+)
 
 instr_light_outer_inc   = panel_events.button19.down    
 instr_light_outer_dec   = panel_events.button20.down
@@ -389,29 +336,6 @@ aerostar_mappings = {
         action = msfs.mfwasm.rpn_executer('(>B:SWITCH_LIGHT_LANDING_L_TOGGLE_Dec) (>B:SWITCH_LIGHT_LANDING_R_TOGGLE_Dec)')
     },
 
-    -- {
-    --     event = map_light_inc,
-    --     action = function()
-    --         local f = nil
-    --         f = function()
-    --             msfs.mfwasm.execute_rpn('(L:LightMapKnob, Number) 5 + 100 min (>L:LightMapKnob, Number)')
-    --             if map_light_inc_engaged == 1 then
-    --                 mapper.delay(100, f)
-    --             end
-    --         end
-    --         if map_light_inc_engaged == 0 then
-    --             map_light_inc_engaged = 1
-    --             f()
-    --         end
-    --     end
-    -- },
-    -- {
-    --     event = map_light_inc_release,
-    --     action = function()
-    --         mapper.print('released')
-    --         map_light_inc_engaged = 0
-    --     end
-    -- },
     {
         event = map_light_inc_control.engage_event,
         action = map_light_inc_control.engage_action
@@ -421,11 +345,15 @@ aerostar_mappings = {
         action = map_light_inc_control.disengage_action
     },
 
-
     {
-        event = map_light_dec,
-        action = msfs.mfwasm.rpn_executer('(L:LightMapKnob, Number) 5 - 0 max (>L:LightMapKnob, Number)')
+        event = map_light_dec_control.engage_event,
+        action = map_light_dec_control.engage_action
     },
+    {
+        event = map_light_dec_control.disengage_event,
+        action = map_light_dec_control.disengage_action
+    },
+
     {
         event = instr_light_outer_inc,
         action = msfs.mfwasm.rpn_executer('(>B:KNOB_LIGHT_INSTRUMENT_OUTER_DRAG_Inc)')
