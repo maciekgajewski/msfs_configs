@@ -76,7 +76,9 @@ hsi_cdi_inc = panel_events.button39.down
 hsi_cdi_dec = panel_events.button38.down
 
 -- lights
-landing_light_on = hotas_events.button27.down
+landing_light_on_one = hotas_events.button27.up
+landing_light_on_one_alt = hotas_events.button28.up
+landing_light_on_both = hotas_events.button27.down
 landing_light_off = hotas_events.button28.down
 
 map_light_inc_control = RepeatingControl:new(
@@ -99,6 +101,12 @@ instr_light_outer_inc   = panel_events.button19.down
 instr_light_outer_dec   = panel_events.button20.down
 instr_light_inner_inc   = panel_events.button21.down
 instr_light_inner_dec   = panel_events.button22.down
+
+-- nose wheel --
+nose_wheel_left = panel_events.button31.down
+nose_wheel_neutral = panel_events.button32.down
+nose_wheel_right = panel_events.button33.down
+
 
 aerostar_mappings = {
 
@@ -328,8 +336,16 @@ aerostar_mappings = {
 
     -- == Lights == --
     {
-        event = landing_light_on,
+        event = landing_light_on_both,
         action = msfs.mfwasm.rpn_executer('(>B:SWITCH_LIGHT_LANDING_L_TOGGLE_Inc) (>B:SWITCH_LIGHT_LANDING_R_TOGGLE_Inc)')
+    },
+    {
+        event = landing_light_on_one,
+        action = msfs.mfwasm.rpn_executer('(>B:SWITCH_LIGHT_LANDING_L_TOGGLE_Inc) (>B:SWITCH_LIGHT_LANDING_R_TOGGLE_Dec)')
+    },
+    {
+        event = landing_light_on_one_alt,
+        action = msfs.mfwasm.rpn_executer('(>B:SWITCH_LIGHT_LANDING_L_TOGGLE_Inc) (>B:SWITCH_LIGHT_LANDING_R_TOGGLE_Dec)')
     },
     {
         event = landing_light_off,
@@ -369,6 +385,20 @@ aerostar_mappings = {
     {
         event = instr_light_inner_dec,
         action = msfs.mfwasm.rpn_executer('1 (>B:KNOB_LIGHT_INSTRUMENT_INNER_DRAG_Dec)')
+    },
+
+    -- == nose steering == --
+    {
+        event = nose_wheel_left,
+        action = msfs.mfwasm.rpn_executer('0 (>L:NoseSteeringSwitch, Number)')
+    },
+    {
+        event = nose_wheel_neutral,
+        action = msfs.mfwasm.rpn_executer('1 (>L:NoseSteeringSwitch, Number)')
+    },
+    {
+        event = nose_wheel_right,
+        action = msfs.mfwasm.rpn_executer('2 (>L:NoseSteeringSwitch, Number)')
     },
 
 
