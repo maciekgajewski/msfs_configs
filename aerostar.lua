@@ -108,6 +108,18 @@ nose_wheel_neutral = panel_events.button32.down
 nose_wheel_right = panel_events.button33.down
 
 
+-- observe ground spewewd
+local ground_velocity_event = mapper.register_event('Ground Velocity')
+msfs.mfwasm.add_observed_data{
+    {
+        event = ground_velocity_event,
+        rpn='(A:GROUND VELOCITY, Knots)',
+        epsilon=5
+    }
+}
+local ground_velocity = 0
+local BRAKE_GV_THRESHOLD = 20
+
 aerostar_mappings = {
 
     -- == Axes --  ( for generic, 2-engine, possibly prop plane)
@@ -399,6 +411,30 @@ aerostar_mappings = {
     {
         event = nose_wheel_right,
         action = msfs.mfwasm.rpn_executer('2 (>L:NoseSteeringSwitch, Number)')
+    },
+
+    -- == Toebrakes == --
+    {
+        event = ground_velocity_event,
+        action = function(_, val) 
+            ground_velocity = val
+        end
+    },
+    {
+        event = rudder_events.z.change,
+        action = function(_, val) 
+            if val > 10000 then
+                if ground_velocity < BRAKE_GV_THRESHOLD then
+                    bv = -50000 + (val - 10000) * 2.5
+                    right_brake_axis:set_value(bv)
+                end
+            elseif val < -10000 then
+                if ground_velocity < BRAKE_GV_THRESHOLD then
+                    bv = -50000 + (-10000 - val) * 2.5
+                    left_brake_axis:set_value(bv)
+                end
+            end
+        end
     },
 
 

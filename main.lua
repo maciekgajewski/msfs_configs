@@ -95,9 +95,16 @@ panel = mapper.device{
     },
 }
 
+rudder = mapper.device{
+    name = 'Rudder',
+    type = 'dinput',
+    identifier = {name = 'VPC ACE-Torq Rudder'},
+}
+
+
 panel_events = panel:get_events()
 hotas_events = hotas:get_events()
-
+rudder_events = rudder:get_events()
 
 --  set-up virtual joystick
 vjoy = mapper.virtual_joystick(1)
@@ -109,6 +116,12 @@ vjoy_prop_2 = vjoy:get_axis('rx')
 vjoy_throttle_1 = vjoy:get_axis('ry')
 vjoy_throttle_2 = vjoy:get_axis('rz')
 vjoy_elevator_trim = vjoy:get_axis('slider1')
+
+
+vjoy2 = mapper.virtual_joystick(2)
+
+left_brake_axis = vjoy2:get_axis('slider1')
+right_brake_axis = vjoy2:get_axis('slider2')
 
 
 -- common bindings
