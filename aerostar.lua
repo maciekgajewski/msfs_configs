@@ -54,11 +54,11 @@ ap_hold_att_up = hotas_events.button5.up
 ap_heading_pitch_event = hotas_events.pov1.change
 ap_heading_pitch_action = function(val)
     if val == 0 then
-        -- up
-        msfs.mfwasm.execute_rpn('(L:ApPitch, Number) -100 > if{ (L:ApPitch, Number) 10 - (>L:ApPitch, Number) }')
-    elseif val == 18000 then
         -- down
-        msfs.mfwasm.execute_rpn('(L:ApPitch, Number) 100 < if{ (L:ApPitch, Number) 10 + (>L:ApPitch, Number) }')
+        msfs.mfwasm.execute_rpn('(L:ApPitch, Number) 100 < if{ (L:ApPitch, Number) 5 + (>L:ApPitch, Number) }')
+    elseif val == 18000 then
+        -- up
+        msfs.mfwasm.execute_rpn('(L:ApPitch, Number) -100 > if{ (L:ApPitch, Number) 5 - (>L:ApPitch, Number) }')
     elseif val == 9000 then
         -- right
         msfs.mfwasm.execute_rpn('(>K:HEADING_BUG_INC)')
@@ -108,7 +108,7 @@ nose_wheel_neutral = panel_events.button32.down
 nose_wheel_right = panel_events.button33.down
 
 
--- observe ground spewewd
+-- observe ground speewd
 local ground_velocity_event = mapper.register_event('Ground Velocity')
 msfs.mfwasm.add_observed_data{
     {

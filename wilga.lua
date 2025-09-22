@@ -35,6 +35,13 @@ tablet_show = hotas_events.button20.down
 
 cooling_shutter_axis = panel_events.ry.change
 
+-- radio
+freq_knob_inc = panel_events.button42.down
+freq_knob_dec = panel_events.button41.down
+freq_knob_press = panel_events.button40.down
+freq_swap = panel_events.button13.down
+
+
 wilga_mappings = {
 
     -- == Axes ==
@@ -130,6 +137,26 @@ wilga_mappings = {
         event = tablet_show,
         action = msfs.mfwasm.rpn_executer('0 (>L:TABLET_HIDDEN)')
     },
+    -- == Radio ==
+    -- {
+    --     event = freq_knob_inc,
+    --     --action = msfs.mfwasm.rpn_executer('(L:MACIEK_SET_COM_WHOLE, Numeric) 1 == if{ 1 (>L:GTN750_PANEL_KnobLargeInc) } els{ 1 (>L:GTN750_PANEL_KnobSmallInc) }')
+    --     action = msfs.mfwasm.rpn_executer('(O:_KnobAnimVar) 10 + dnor (>O:_KnobAnimVar) (>H:GTN750_KnobLargeInc) 1 (>L:TDSGTNXI750U1_RKnobOuterInc)')
+    -- },
+    -- {
+    --     event = freq_knob_dec,
+    --     -- action = msfs.mfwasm.rpn_executer('(L:MACIEK_SET_COM_WHOLE, Numeric) 1 == if{ 1 (>L:GTN750_PANEL_KnobLargeDec) } els{ 1 (>L:GTN750_PANEL_KnobSmallDec) }')
+    --     action = msfs.mfwasm.rpn_executer('(O:_KnobAnimVar) 10 - dnor (>O:_KnobAnimVar) (>H:GTN750_KnobLargeDec) 1 (>L:TDSGTNXI750U1_RKnobOuterDec)')
+    -- },
+    -- {
+    --     event = freq_knob_press,
+    --     action = msfs.mfwasm.rpn_executer('(L:MACIEK_SET_COM_WHOLE, Numeric) 1 == if{ 0 (>L:MACIEK_SET_COM_WHOLE, Numeric) } els{ 1 (>L:MACIEK_SET_COM_WHOLE, Numeric) }')
+    -- },
+    -- {
+    --     event = freq_swap,
+    --     --action = msfs.mfwasm.rpn_executer('(>K:COM1_RADIO_SWAP)')
+    --     action = msfs.mfwasm.rpn_executer('(>H:GTN_COM_Switch)')
+    -- }
 
     -- TODO add all the rest, go crazy :) 
 }

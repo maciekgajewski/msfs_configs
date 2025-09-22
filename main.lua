@@ -101,10 +101,24 @@ rudder = mapper.device{
     identifier = {name = 'VPC ACE-Torq Rudder'},
 }
 
+joystick = mapper.device{
+    name = 'Joystick',
+    type = 'dinput',
+    identifier = {name = 'R-VPC Stick WarBRD'},
+     modifiers = {
+        {name="x", modtype="button"},
+        {name="y", modtype="button"},
+        {name="button16", modtype="button"},
+        {name="button17", modtype="button"},
+        {name="button18", modtype="button"},
+     },   
+
+}
 
 panel_events = panel:get_events()
 hotas_events = hotas:get_events()
 rudder_events = rudder:get_events()
+joystick_events = joystick:get_events()
 
 --  set-up virtual joystick
 vjoy = mapper.virtual_joystick(1)
@@ -148,6 +162,24 @@ function is_aerostar(name)
     return string.sub(name, 1, string.len(aerostar_prefix)) == aerostar_prefix
 end
 
+-- aircraft description events
+local aircraft_engine_type_event = mapper.register_event('Aircraft Engine Type')
+msfs.mfwasm.add_observed_data{
+    {
+        event = aircraft_engine_type_event,
+        rpn='(A:ENGINE TYPE, Enum)',
+        epsilon=0
+    }
+}
+local aircraft_engine_type = 0
+
+-- openxr menu
+openxr_down = joystick_events.button17.down
+openxr_left = joystick_events.button18.down
+openxr_right = joystick_events.button16.down
+
+
+
 mapper.set_primary_mappings({
     -- common mappings - aircraft agnostic
     {
@@ -157,6 +189,15 @@ mapper.set_primary_mappings({
     {
         event = vr_center,
         action = vjoy:get_button(2):value_setter()
+    },
+
+    -- observe aircraft properties
+    {
+        event = aircraft_engine_type_event,
+        action = function(_, val) 
+            aircraft_engine_type = val
+            mapper.print('Aircraft engine type: ' .. aircraft_engine_type)
+        end
     },
 
     -- loading aircraft specific ones
@@ -172,10 +213,10 @@ mapper.set_primary_mappings({
                     mapper.print('Wilga! Loading dedicated mappings...')
                     require('wilga')
                     mapper.set_secondary_mappings(wilga_mappings)
-                elseif is_dc3(at.aircraft) then
-                    mapper.print('DC-3! Loading dedicated mappings...')
-                    require('dc3')
-                    mapper.set_secondary_mappings(dc3_mappings)
+                -- elseif is_dc3(at.aircraft) then
+                --     mapper.print('DC-3! Loading dedicated mappings...')
+                --     require('dc3')
+                --     mapper.set_secondary_mappings(dc3_mappings)
                 elseif is_aerostar(at.aircraft) then
                     mapper.print('Aerostar! Loading dedicated mappings...')
                     require('aerostar')
@@ -190,5 +231,19 @@ mapper.set_primary_mappings({
                 mapper.set_secondary_mappings({})
             end
         end
-    }
+    },
+
+    -- openxr
+    {
+        event = openxr_down,
+        action = mapper.keystroke{codes={'VK_F2'}, modifiers={'VK_LCONTROL'}}:synthesizer()
+    },
+    {
+        event = openxr_left,
+        action = mapper.keystroke{codes={'V'}, modifiers={'VK_LCONTROL'}}:synthesizer()
+    },
+    {
+        event = openxr_right,
+        action = mapper.keystroke{codes={'VK_F3'}, modifiers={'VK_LCONTROL'}}:synthesizer()
+    },
 })
