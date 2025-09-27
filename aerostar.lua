@@ -107,6 +107,12 @@ nose_wheel_left = panel_events.button31.down
 nose_wheel_neutral = panel_events.button32.down
 nose_wheel_right = panel_events.button33.down
 
+-- radio
+freq_knob_inc = panel_events.button42.down
+freq_knob_dec = panel_events.button41.down
+freq_knob_press = panel_events.button40.down
+freq_swap = panel_events.button13.down
+
 
 -- observe ground speewd
 local ground_velocity_event = mapper.register_event('Ground Velocity')
@@ -123,38 +129,38 @@ local BRAKE_GV_THRESHOLD = 20
 aerostar_mappings = {
 
     -- == Axes --  ( for generic, 2-engine, possibly prop plane)
-    {
-        event = panel_events.x.change,
-        action = vjoy_mixture_1:value_setter()
-    },
-    {
-        event = panel_events.y.change,
-        action = vjoy_mixture_2:value_setter()
-    },
-    {
-        event = panel_events.rx.change,
-        action = vjoy_prop_1:value_setter()
-    },
-    {
-        event = panel_events.ry.change,
-        action = vjoy_prop_2:value_setter()
-    },
-    {
-        event = panel_events.rx.change,
-        action = vjoy_prop_1:value_setter()
-    },
-    {
-        event = hotas_events.z.change,
-        action = vjoy_throttle_1:value_setter()
-    },
-    {
-        event = hotas_events.rz.change,
-        action = vjoy_throttle_2:value_setter()
-    },
-    {
-        event = hotas_events.slider1.change,
-        action = vjoy_elevator_trim:value_setter()
-    },
+    -- {
+    --     event = panel_events.x.change,
+    --     action = vjoy_mixture_1:value_setter()
+    -- },
+    -- {
+    --     event = panel_events.y.change,
+    --     action = vjoy_mixture_2:value_setter()
+    -- },
+    -- {
+    --     event = panel_events.rx.change,
+    --     action = vjoy_prop_1:value_setter()
+    -- },
+    -- {
+    --     event = panel_events.ry.change,
+    --     action = vjoy_prop_2:value_setter()
+    -- },
+    -- {
+    --     event = panel_events.rx.change,
+    --     action = vjoy_prop_1:value_setter()
+    -- },
+    -- {
+    --     event = hotas_events.z.change,
+    --     action = vjoy_throttle_1:value_setter()
+    -- },
+    -- {
+    --     event = hotas_events.rz.change,
+    --     action = vjoy_throttle_2:value_setter()
+    -- },
+    -- {
+    --     event = hotas_events.slider1.change,
+    --     action = vjoy_elevator_trim:value_setter()
+    -- },
 
     -- == Wheels ==
     {
@@ -423,27 +429,36 @@ aerostar_mappings = {
     {
         event = rudder_events.z.change,
         action = function(_, val) 
-            if val > 10000 then
-                if ground_velocity < BRAKE_GV_THRESHOLD then
+            if ground_velocity < BRAKE_GV_THRESHOLD then
+                if val > 10000 then
                     bv = -50000 + (val - 10000) * 2.5
                     right_brake_axis:set_value(bv)
-                end
-            elseif val < -10000 then
-                if ground_velocity < BRAKE_GV_THRESHOLD then
+                elseif val < -10000 then
                     bv = -50000 + (-10000 - val) * 2.5
                     left_brake_axis:set_value(bv)
                 end
-            end
+            end -- BRAKE_GV_THRESHOLD
         end
+    },
+    -- == Radio ==
+    {
+        event = freq_knob_inc,
+        action = msfs.mfwasm.rpn_executer('(L:MACIEK_SET_COM_WHOLE, Numeric) 1 == if{ (>K:COM_RADIO_WHOLE_INC) } els{ (>K:COM_RADIO_FRACT_INC) }')
+    },
+    {
+        event = freq_knob_dec,
+        action = msfs.mfwasm.rpn_executer('(L:MACIEK_SET_COM_WHOLE, Numeric) 1 == if{ (>K:COM_RADIO_WHOLE_DEC) } els{ (>K:COM_RADIO_FRACT_DEC) }')
+    },
+    {
+        event = freq_knob_press,
+        action = msfs.mfwasm.rpn_executer('(L:MACIEK_SET_COM_WHOLE, Numeric) 1 == if{ 0 (>L:MACIEK_SET_COM_WHOLE, Numeric) } els{ 1 (>L:MACIEK_SET_COM_WHOLE, Numeric) }')
+    },
+    {
+        event = freq_swap,
+        action = msfs.mfwasm.rpn_executer('(>K:COM1_RADIO_SWAP)')
     },
 
 
--- map_light_inc           = hotas_events.button17.down
--- map_light_dec           = hotas_events.button17.down
--- instr_light_outer_inc   = hotas_events.button19.down    
--- instr_light_outer_dec   = hotas_events.button20.down
--- instr_light_inner_inc   = hotas_events.button21.down
--- instr_light_inner_dec   = hotas_events.button22.down
 
 
 }

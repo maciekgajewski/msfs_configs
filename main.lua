@@ -123,13 +123,13 @@ joystick_events = joystick:get_events()
 --  set-up virtual joystick
 vjoy = mapper.virtual_joystick(1)
 
-vjoy_mixture_1 = vjoy:get_axis('x')
-vjoy_mixture_2 = vjoy:get_axis('y') 
-vjoy_prop_1 = vjoy:get_axis('z')
-vjoy_prop_2 = vjoy:get_axis('rx')
-vjoy_throttle_1 = vjoy:get_axis('ry')
-vjoy_throttle_2 = vjoy:get_axis('rz')
-vjoy_elevator_trim = vjoy:get_axis('slider1')
+-- vjoy_mixture_1 = vjoy:get_axis('x')
+-- vjoy_mixture_2 = vjoy:get_axis('y') 
+-- vjoy_prop_1 = vjoy:get_axis('z')
+-- vjoy_prop_2 = vjoy:get_axis('rx')
+-- vjoy_throttle_1 = vjoy:get_axis('ry')
+-- vjoy_throttle_2 = vjoy:get_axis('rz')
+-- vjoy_elevator_trim = vjoy:get_axis('slider1')
 
 
 vjoy2 = mapper.virtual_joystick(2)
@@ -240,7 +240,7 @@ mapper.set_primary_mappings({
     },
     {
         event = openxr_left,
-        action = mapper.keystroke{codes={'V'}, modifiers={'VK_LCONTROL'}}:synthesizer()
+        action = mapper.keystroke{codes={'VK_F1'}, modifiers={'VK_LCONTROL'}}:synthesizer()
     },
     {
         event = openxr_right,
