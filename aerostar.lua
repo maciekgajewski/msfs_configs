@@ -102,6 +102,15 @@ instr_light_outer_dec   = panel_events.button20.down
 instr_light_inner_inc   = panel_events.button21.down
 instr_light_inner_dec   = panel_events.button22.down
 
+bcn_light_on = panel_events.button23.down
+bcn_light_off = panel_events.button24.down
+stb_light_on = panel_events.button25.down
+stb_light_off = panel_events.button26.down
+nav_light_on = panel_events.button27.down
+nav_light_off = panel_events.button28.down
+cabin_light_on = panel_events.button29.down
+cabin_light_off = panel_events.button30.down
+
 -- nose wheel --
 nose_wheel_left = panel_events.button31.down
 nose_wheel_neutral = panel_events.button32.down
@@ -369,7 +378,7 @@ aerostar_mappings = {
     },
     {
         event = landing_light_on_one_alt,
-        action = msfs.mfwasm.rpn_executer('(>B:SWITCH_LIGHT_LANDING_L_TOGGLE_Inc) (>B:SWITCH_LIGHT_LANDING_R_TOGGLE_Dec)')
+        action = msfs.mfwasm.rpn_executer('(>B:SWITCH_LIGHT_LANDING_L_TOGGLE_Dec) (>B:SWITCH_LIGHT_LANDING_R_TOGGLE_Inc)')
     },
     {
         event = landing_light_off,
@@ -410,6 +419,49 @@ aerostar_mappings = {
         event = instr_light_inner_dec,
         action = msfs.mfwasm.rpn_executer('1 (>B:KNOB_LIGHT_INSTRUMENT_INNER_DRAG_Dec)')
     },
+        -- bottom light buttons
+    {
+        event = bcn_light_on,
+        action = msfs.mfwasm.rpn_executer('(>K:BEACON_LIGHTS_ON)')
+    },
+    {
+        event = bcn_light_off,
+        action = msfs.mfwasm.rpn_executer('(>K:BEACON_LIGHTS_OFF)')
+    },
+    {
+        event = stb_light_on,
+        action = msfs.mfwasm.rpn_executer('(>K:STROBES_ON)')
+    },
+    {
+        event = stb_light_off,
+        action = msfs.mfwasm.rpn_executer('(>K:STROBES_OFF)')
+    },
+    {
+        event = nav_light_on,
+        action = msfs.mfwasm.rpn_executer('(>K:NAV_LIGHTS_ON)')
+    },
+    {
+        event = nav_light_off,
+        action = msfs.mfwasm.rpn_executer('(>K:NAV_LIGHTS_OFF)')
+    },
+    {
+        event = cabin_light_on,
+        action = msfs.mfwasm.rpn_executer('(>K:CABIN_LIGHTS_ON)')
+    },
+    {
+        event = cabin_light_off,
+        action = msfs.mfwasm.rpn_executer('(>K:CABIN_LIGHTS_OFF)')
+    },
+
+-- bcn_light_on = panel_events.button23.down
+-- bcn_light_on = panel_events.button24.down
+-- stb_light_on = panel_events.button25.down
+-- stb_light_on = panel_events.button26.down
+-- nav_light_on = panel_events.button27.down
+-- nav_light_on = panel_events.button28.down
+-- cabin_light_on = panel_events.button29.down
+-- cabin_light_on = panel_events.button30.down
+
 
     -- == nose steering == --
     {
