@@ -114,7 +114,7 @@ freq_knob_press = panel_events.button40.down
 freq_swap = panel_events.button13.down
 
 
--- observe ground speewd
+-- observe ground speed
 local ground_velocity_event = mapper.register_event('Ground Velocity')
 msfs.mfwasm.add_observed_data{
     {
@@ -125,6 +125,12 @@ msfs.mfwasm.add_observed_data{
 }
 local ground_velocity = 0
 local BRAKE_GV_THRESHOLD = 20
+
+-- EDM
+edn_step_press = panel_events.button10.down
+edn_step_release = panel_events.button10.up
+edn_lf_press = panel_events.button11.down
+edn_lf_release = panel_events.button11.up
 
 aerostar_mappings = {
 
@@ -456,6 +462,24 @@ aerostar_mappings = {
     {
         event = freq_swap,
         action = msfs.mfwasm.rpn_executer('(>K:COM1_RADIO_SWAP)')
+    },
+
+    -- == EDM == --
+    {
+        event = edn_step_press,
+        action = msfs.mfwasm.rpn_executer('1 (>L:BUTTON_EDM790_Step)')
+    },
+    {
+        event = edn_step_release,
+        action = msfs.mfwasm.rpn_executer('0 (>L:BUTTON_EDM790_Step)')
+    },
+    {
+        event = edn_lf_press,
+        action = msfs.mfwasm.rpn_executer('1 (>L:BUTTON_EDM790_LF)')
+    },
+    {
+        event = edn_lf_release,
+        action = msfs.mfwasm.rpn_executer('0 (>L:BUTTON_EDM790_LF)')
     },
 
 
