@@ -122,6 +122,12 @@ freq_knob_dec = panel_events.button41.down
 freq_knob_press = panel_events.button40.down
 freq_swap = panel_events.button13.down
 
+-- mode switch
+mode_1 = panel_events.button43.down
+mode_2 = panel_events.button44.down
+
+toebrakes_enabled = true
+
 
 -- observe ground speed
 local ground_velocity_event = mapper.register_event('Ground Velocity')
@@ -487,7 +493,7 @@ aerostar_mappings = {
     {
         event = rudder_events.z.change,
         action = function(_, val) 
-            if ground_velocity < BRAKE_GV_THRESHOLD then
+            if ground_velocity < BRAKE_GV_THRESHOLD and toebrakes_enabled then
                 if val > 10000 then
                     bv = -50000 + (val - 10000) * 2.5
                     right_brake_axis:set_value(bv)
@@ -498,6 +504,24 @@ aerostar_mappings = {
             end -- BRAKE_GV_THRESHOLD
         end
     },
+    -- == Mode switch == --
+    {
+        event = mode_1,
+        action = function(_, _)
+            toebrakes_enabled = true
+            mapper.print("Toebrakes enabled")
+        end
+    },
+    {
+        event = mode_2,
+        action = function(_, _)
+            toebrakes_enabled = false
+            right_brake_axis:set_value(-50000)
+            left_brake_axis:set_value(-50000)
+            mapper.print("Toebrakes disabled")
+        end
+    },
+
     -- == Radio ==
     {
         event = freq_knob_inc,

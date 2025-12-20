@@ -45,27 +45,27 @@ freq_swap = panel_events.button13.down
 wilga_mappings = {
 
     -- == Axes ==
-    {
-        event = panel_events.x.change,
-        action = vjoy_mixture_1:value_setter()
-    },
-    {
-        event = hotas_events.rz.change,
-        action = filter.lerp(vjoy_prop_1:value_setter(),
-        { -- wilga needs reversing the prop axis
-            {-50000, 50000},
-            {50000, -50000}
-        })
-    },
-    {
-        event = hotas_events.z.change,
-        action = vjoy_throttle_1:value_setter()
-    },
+    -- {
+    --     event = panel_events.x.change,
+    --     action = vjoy_mixture_1:value_setter()
+    -- },
+    -- {
+    --     event = hotas_events.rz.change,
+    --     action = filter.lerp(vjoy_prop_1:value_setter(),
+    --     { -- wilga needs reversing the prop axis
+    --         {-50000, 50000},
+    --         {50000, -50000}
+    --     })
+    -- },
+    -- {
+    --     event = hotas_events.z.change,
+    --     action = vjoy_throttle_1:value_setter()
+    -- },
 
-    {
-        event = hotas_events.slider1.change,
-        action = vjoy_elevator_trim:value_setter()
-    },
+    -- {
+    --     event = hotas_events.slider1.change,
+    --     action = vjoy_elevator_trim:value_setter()
+    -- },
 
     -- == Wheels ==
     {

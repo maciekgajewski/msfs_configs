@@ -108,6 +108,7 @@ joystick = mapper.device{
      modifiers = {
         {name="x", modtype="button"},
         {name="y", modtype="button"},
+        {name="button15", modtype="button"},
         {name="button16", modtype="button"},
         {name="button17", modtype="button"},
         {name="button18", modtype="button"},
@@ -174,6 +175,7 @@ msfs.mfwasm.add_observed_data{
 local aircraft_engine_type = 0
 
 -- openxr menu
+openxr_up = joystick_events.button15.down
 openxr_down = joystick_events.button17.down
 openxr_left = joystick_events.button18.down
 openxr_right = joystick_events.button16.down
@@ -234,6 +236,10 @@ mapper.set_primary_mappings({
     },
 
     -- openxr
+    {
+        event = openxr_up,
+        action = mapper.keystroke{codes={'VK_F2'}, modifiers={'VK_LCONTROL', 'VK_SHIFT'}}:synthesizer()
+    },
     {
         event = openxr_down,
         action = mapper.keystroke{codes={'VK_F2'}, modifiers={'VK_LCONTROL'}}:synthesizer()
