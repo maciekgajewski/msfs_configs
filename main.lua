@@ -95,11 +95,11 @@ panel = mapper.device{
     },
 }
 
-rudder = mapper.device{
-    name = 'Rudder',
-    type = 'dinput',
-    identifier = {name = 'VPC ACE-Torq Rudder'},
-}
+-- rudder = mapper.device{
+--     name = 'Rudder',
+--     type = 'dinput',
+--     identifier = {name = 'VPC ACE-Torq Rudder'},
+-- }
 
 joystick = mapper.device{
     name = 'Joystick',
@@ -118,7 +118,7 @@ joystick = mapper.device{
 
 panel_events = panel:get_events()
 hotas_events = hotas:get_events()
-rudder_events = rudder:get_events()
+--rudder_events = rudder:get_events()
 joystick_events = joystick:get_events()
 
 --  set-up virtual joystick
@@ -161,6 +161,11 @@ end
 function is_aerostar(name)
     local aerostar_prefix = 'A2A Piper Aerostar 600'
     return string.sub(name, 1, string.len(aerostar_prefix)) == aerostar_prefix
+end
+
+function is_baron(name)
+    local baron_prefix = 'Black Square Baron'
+    return string.sub(name, 1, string.len(baron_prefix)) == baron_prefix
 end
 
 -- aircraft description events
@@ -223,6 +228,10 @@ mapper.set_primary_mappings({
                     mapper.print('Aerostar! Loading dedicated mappings...')
                     require('aerostar')
                     mapper.set_secondary_mappings(aerostar_mappings)
+                elseif is_baron(at.aircraft) then
+                    mapper.print('Baron! Loading dedicated mappings...')
+                    require('baron')
+                    mapper.set_secondary_mappings(baron_mappings)
                 else
                     mapper.print('Other aircraft. Loading generic mappings')
                     require('generic')
