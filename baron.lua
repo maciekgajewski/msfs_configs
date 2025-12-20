@@ -101,55 +101,63 @@ baron_mappings = {
 
     {
         event = left_magneto_off,
-        action = msfs.mfwasm.rpn_executer('1 (>K:MAGNETO1_OFF)')
+        action = msfs.mfwasm.rpn_executer('1 (>L:BKSQ_IgnitionPosition_1)')
     },
     {
         event = left_magneto_both,
-        action = msfs.mfwasm.rpn_executer('3 (>K:MAGNETO1_LEFT)')
+        action = msfs.mfwasm.rpn_executer('3 (>L:BKSQ_IgnitionPosition_1)')
     },
     {
         event = left_magneto_both_alt,
-        action = msfs.mfwasm.rpn_executer('3 (>K:MAGNETO1_BOTH)')
+        action = msfs.mfwasm.rpn_executer('3 (>L:BKSQ_IgnitionPosition_1)')
     },
     {
         event = left_magneto_start,
-        action = msfs.mfwasm.rpn_executer('4 (>K:MAGNETO1_START)')
+        action = msfs.mfwasm.rpn_executer('4 (>L:BKSQ_IgnitionPosition_1) (E:SIMULATION TIME, seconds) 1000 + (>L:starterKnobReturnTime_L, number)')
     },
 
     {
         event = right_magneto_off,
-        action = msfs.mfwasm.rpn_executer('1 (>K:MAGNETO2_OFF)')
+        action = msfs.mfwasm.rpn_executer('1 (>L:BKSQ_IgnitionPosition_2)')
     },
     {
         event = right_magneto_both,
-        action = msfs.mfwasm.rpn_executer('1 (>K:MAGNETO2_BOTH)')
+        action = msfs.mfwasm.rpn_executer('3 (>L:BKSQ_IgnitionPosition_2)')
     },
     {
         event = right_magneto_both_alt,
-        action = msfs.mfwasm.rpn_executer('1 (>K:MAGNETO2_BOTH)')
+        action = msfs.mfwasm.rpn_executer('3 (>L:BKSQ_IgnitionPosition_2)')
     },
     {
         event = right_magneto_start,
-        action = msfs.mfwasm.rpn_executer('1 (>K:MAGNETO2_START)')
+        action = msfs.mfwasm.rpn_executer('4 (>L:BKSQ_IgnitionPosition_2) (E:SIMULATION TIME, seconds) 1000 + (>L:starterKnobReturnTime_R, number)')
     },
 
 
     -- debug
     {
+        event = panel_events.button8.down,
+        action =  msfs.mfwasm.rpn_executer('1 (>L:BKSQ_IgnitionPosition_1)') -- mag0
+    },
+    {
         event = panel_events.button9.down,
-        action =  msfs.mfwasm.rpn_executer('0 (>K:BKSQ_MAGNETOCONTROLLER_L_Set)')
+        action =  msfs.mfwasm.rpn_executer('2 (>L:BKSQ_IgnitionPosition_1)') -- mak 1
     },
     {
         event = panel_events.button10.down,
-        action =  msfs.mfwasm.rpn_executer('1 (>K:BKSQ_MAGNETOCONTROLLER_L_Set)')
+        action =  msfs.mfwasm.rpn_executer('3 (>L:BKSQ_IgnitionPosition_1)')-- mag both
     },
     {
         event = panel_events.button11.down,
-        action =  msfs.mfwasm.rpn_executer('2 (>K:BKSQ_MAGNETOCONTROLLER_L_Set)')
-    },
-    {
-        event = panel_events.button12.down,
-        action =  msfs.mfwasm.rpn_executer('3 (>K:BKSQ_MAGNETOCONTROLLER_L_Set)')
-    },
+        -- attempt at starter
+        --action =  msfs.mfwasm.rpn_executer('1 4 (>B:2:BKSQ_MAGNETOCONTROLLER_L) (E:SIMULATION TIME, seconds) 1000 + (>L:starterKnobReturnTime_L, Number)')
+        --action =  msfs.mfwasm.rpn_executer('1 4 (>K:2:BKSQ_MAGNETOCONTROLLER_L) (E:SIMULATION TIME, seconds) 1000 + (>L:starterKnobReturnTime_L, Number)')
+        --action =  msfs.mfwasm.rpn_executer('1 (>K:TOGGLE_STARTER1)')
+        --action =  msfs.mfwasm.rpn_executer('4 (>L:BKSQ_IgnitionPosition_1)')
+        -- this workls!!!
+        --action =  msfs.mfwasm.rpn_executer('4 (>L:BKSQ_IgnitionPosition_1) 1 (>K:BKSQ B58-ELEC Mag1 START) (E:SIMULATION TIME, seconds) (>L:starterKnobReturnTime_L, number)')
 
+        action =  msfs.mfwasm.rpn_executer('4 (>L:BKSQ_IgnitionPosition_1) (E:SIMULATION TIME, seconds) 1000 + (>L:starterKnobReturnTime_L, number)')
+    },
+    -- BKSQ_MAGNETOCONTROLLER_L_Inc
 }
