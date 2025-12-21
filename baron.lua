@@ -87,6 +87,9 @@ flood_light_off = panel_events.button20.down
 panel_light_on = panel_events.button21.down
 panel_light_off = panel_events.button22.down
 
+pilot_map_light_toggle = panel_events.button3.down
+copilot_map_light_toggle = panel_events.button4.down
+
 
 baron_mappings = {
 
@@ -339,6 +342,14 @@ baron_mappings = {
     {
         event = panel_light_off,
         action = msfs.mfwasm.rpn_executer('0 (>L:bksq_MasterPanelLights, Bool)')
+    },
+    {
+        event = pilot_map_light_toggle,
+        action = msfs.mfwasm.rpn_executer('(L:var_OatMapCompassLightButton_1, Bool) ! (>L:var_OatMapCompassLightButton_1, Bool)')
+    },
+    {
+        event = copilot_map_light_toggle,
+        action = msfs.mfwasm.rpn_executer('(L:var_OatMapCompassLightButton_2, Bool) ! (>L:var_OatMapCompassLightButton_2, Bool)')
     },
 
     -- debug
