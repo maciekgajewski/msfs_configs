@@ -80,6 +80,14 @@ beacon_light_off = panel_events.button26.down
 strobe_light_on = panel_events.button23.down
 strobe_light_off = panel_events.button24.down
 
+ice_light_on = panel_events.button17.down
+ice_light_off = panel_events.button18.down
+flood_light_on = panel_events.button19.down
+flood_light_off = panel_events.button20.down
+panel_light_on = panel_events.button21.down
+panel_light_off = panel_events.button22.down
+
+
 baron_mappings = {
 
     -- == Wheels ==
@@ -308,6 +316,30 @@ baron_mappings = {
         action = msfs.mfwasm.rpn_executer('(>K:NAV_LIGHTS_OFF)')
     },
 
+    {
+        event = ice_light_on,
+        action = msfs.mfwasm.rpn_executer('(>K:WING_LIGHTS_ON)')
+    },
+    {
+        event = ice_light_off,
+        action = msfs.mfwasm.rpn_executer('(>K:WING_LIGHTS_OFF)')
+    },
+    {
+        event = flood_light_on,
+        action = msfs.mfwasm.rpn_executer('1 (>L:bksq_MasterGlareshieldLights, Bool)')
+    },
+    {
+        event = flood_light_off,
+        action = msfs.mfwasm.rpn_executer('0 (>L:bksq_MasterGlareshieldLights, Bool)')
+    },
+    {
+        event = panel_light_on,
+        action = msfs.mfwasm.rpn_executer('1 (>L:bksq_MasterPanelLights, Bool)')
+    },
+    {
+        event = panel_light_off,
+        action = msfs.mfwasm.rpn_executer('0 (>L:bksq_MasterPanelLights, Bool)')
+    },
 
     -- debug
     {
