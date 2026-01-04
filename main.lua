@@ -108,6 +108,8 @@ joystick = mapper.device{
      modifiers = {
         {name="x", modtype="button"},
         {name="y", modtype="button"},
+        {name="button12", modtype="button"},
+        {name="button14", modtype="button"},
         {name="button15", modtype="button"},
         {name="button16", modtype="button"},
         {name="button17", modtype="button"},

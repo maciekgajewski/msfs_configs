@@ -87,8 +87,14 @@ flood_light_off = panel_events.button20.down
 panel_light_on = panel_events.button21.down
 panel_light_off = panel_events.button22.down
 
-pilot_map_light_toggle = panel_events.button3.down
-copilot_map_light_toggle = panel_events.button4.down
+pilot_map_light_toggle = panel_events.button2.down
+pilot_reading_light_toggle = panel_events.button3.down
+copilot_reading_light_toggle = panel_events.button4.down
+
+-- pilot yoke
+pilot_yoke_timer_sel = joystick_events.button14.down
+pilot_yoke_timer_ctl = joystick_events.button12.down
+
 
 
 baron_mappings = {
@@ -348,8 +354,22 @@ baron_mappings = {
         action = msfs.mfwasm.rpn_executer('(L:var_OatMapCompassLightButton_1, Bool) ! (>L:var_OatMapCompassLightButton_1, Bool)')
     },
     {
-        event = copilot_map_light_toggle,
-        action = msfs.mfwasm.rpn_executer('(L:var_OatMapCompassLightButton_2, Bool) ! (>L:var_OatMapCompassLightButton_2, Bool)')
+        event = pilot_reading_light_toggle,
+        action = msfs.mfwasm.rpn_executer('(L:var_LIGHTING_Push_Cockpit_1, Bool) ! (>L:var_LIGHTING_Push_Cockpit_1, Bool)')
+    },
+    {
+        event = copilot_reading_light_toggle,
+        action = msfs.mfwasm.rpn_executer('(L:var_LIGHTING_Push_Cockpit_2, Bool) ! (>L:var_LIGHTING_Push_Cockpit_2, Bool)')
+    },
+
+    -- pilot yoke
+    {
+        event = pilot_yoke_timer_sel,
+        action = msfs.mfwasm.rpn_executer('(L:var_yokeChronoMode_L, number) 1 + 3 % (>L:var_yokeChronoMode_L, number)')
+    },
+    {
+        event = pilot_yoke_timer_ctl,
+        action = msfs.mfwasm.rpn_executer('(L:var_yokeTimerMode_L, number) 1 + 3 % (>L:var_yokeTimerMode_L, number)')
     },
 
     -- debug
