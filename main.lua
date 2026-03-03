@@ -54,7 +54,7 @@ local status, err = pcall(function ()
         name = 'STECS',
         type = 'dinput',
         identifier = {name = 'S-TECS MODERN THROTTLE STANDARD STEM '},
-                modifiers = {
+        modifiers = {
             {name="button0", modtype="button"},
             {name="button1", modtype="button"},
             {name="button2", modtype="button"},
@@ -86,10 +86,10 @@ local status, err = pcall(function ()
             {name="button28", modtype="button"},
             {name="button29", modtype="button"},
             {name="button30", modtype="button"},
-            {name="button31", modtype="button"},
-            {name="button32", modtype="button"},
-            {name="button33", modtype="button"},
-            {name="button34", modtype="button"},
+            {name="button31", modtype="button", modparam={repeat_interval=100, repeat_delay=250}},
+            {name="button32", modtype="button", modparam={repeat_interval=100, repeat_delay=250}},
+            {name="button33", modtype="button", modparam={repeat_interval=100, repeat_delay=250}},
+            {name="button34", modtype="button", modparam={repeat_interval=100, repeat_delay=250}},
             {name="button35", modtype="button"},
             {name="button36", modtype="button"},
             {name="button37", modtype="button"},
@@ -332,7 +332,13 @@ mapper.set_primary_mappings({
                     mapper.set_secondary_mappings(aerostar_mappings)
                 elseif is_baron(at.aircraft) then
                     mapper.print('Baron! Loading dedicated mappings...')
-                    require('baron')
+                    if hotas then
+                        require('baron-warthog')
+                    elseif stecs then
+                        require('baron-stecs')
+                    else
+                        error('Baron detected but no supported throttle found!')
+                    end
                     mapper.set_secondary_mappings(baron_mappings)
                 elseif is_dirty30(at.aircraft) then
                     mapper.print('Dirty 30! Loading dedicated mappings...')
