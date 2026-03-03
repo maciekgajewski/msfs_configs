@@ -1,43 +1,135 @@
-hotas = mapper.device{
-    name = 'Hotas',
-    type = 'dinput',
-    identifier = {name = 'Throttle - HOTAS Warthog'},
-    modifiers = {
-        {name="button0", modtype="button"},
-        {name="button1", modtype="button"},
-        {name="button2", modtype="button"},
-        {name="button3", modtype="button"},
-        {name="button4", modtype="button"},
-        {name="button5", modtype="button"},
-        {name="button6", modtype="button"},
-        -- {name="button7", modtype="button"},
-        -- {name="button8", modtype="button"},
-        {name="button9", modtype="button"},
-        {name="button10", modtype="button"},
-        {name="button11", modtype="button"},
-        {name="button12", modtype="button"},
-        {name="button13", modtype="button"},
-        {name="button14", modtype="button"},
-        {name="button15", modtype="button"},
-        {name="button16", modtype="button"},
-        {name="button17", modtype="button"},
-        {name="button18", modtype="button"},
-        {name="button19", modtype="button"},
-        {name="button20", modtype="button"},
-        {name="button21", modtype="button"},
-        {name="button22", modtype="button"},
-        {name="button23", modtype="button"},
-        {name="button24", modtype="button"},
-        {name="button25", modtype="button"},
-        {name="button26", modtype="button"},
-        {name="button27", modtype="button"},
-        {name="button28", modtype="button"},
-        {name="button29", modtype="button"},
-        {name="button30", modtype="button"},
-        {name="button31", modtype="button"},
-        {name="button32", modtype="button"},
-    },
-}
+hotas = nil -- Warthog hota
+
+local status, err = pcall(function () 
+    hotas = mapper.device{
+        name = 'Hotas',
+        type = 'dinput',
+        identifier = {name = 'Throttle - HOTAS Warthog'},
+        modifiers = {
+            {name="button0", modtype="button"},
+            {name="button1", modtype="button"},
+            {name="button2", modtype="button"},
+            {name="button3", modtype="button"},
+            {name="button4", modtype="button"},
+            {name="button5", modtype="button"},
+            {name="button6", modtype="button"},
+            -- {name="button7", modtype="button"},
+            -- {name="button8", modtype="button"},
+            {name="button9", modtype="button"},
+            {name="button10", modtype="button"},
+            {name="button11", modtype="button"},
+            {name="button12", modtype="button"},
+            {name="button13", modtype="button"},
+            {name="button14", modtype="button"},
+            {name="button15", modtype="button"},
+            {name="button16", modtype="button"},
+            {name="button17", modtype="button"},
+            {name="button18", modtype="button"},
+            {name="button19", modtype="button"},
+            {name="button20", modtype="button"},
+            {name="button21", modtype="button"},
+            {name="button22", modtype="button"},
+            {name="button23", modtype="button"},
+            {name="button24", modtype="button"},
+            {name="button25", modtype="button"},
+            {name="button26", modtype="button"},
+            {name="button27", modtype="button"},
+            {name="button28", modtype="button"},
+            {name="button29", modtype="button"},
+            {name="button30", modtype="button"},
+            {name="button31", modtype="button"},
+            {name="button32", modtype="button"},
+        },
+    }
+end)
+
+if not status then
+    mapper.print('Warthog Throttle not connected!')
+else
+    mapper.print('Warthog Throttle connected!')
+end
+
+local status, err = pcall(function () 
+    stecs = mapper.device{
+        name = 'STECS',
+        type = 'dinput',
+        identifier = {name = 'S-TECS MODERN THROTTLE STANDARD STEM '},
+                modifiers = {
+            {name="button0", modtype="button"},
+            {name="button1", modtype="button"},
+            {name="button2", modtype="button"},
+            {name="button3", modtype="button"},
+            {name="button4", modtype="button"},
+            {name="button5", modtype="button"},
+            {name="button6", modtype="button"},
+            {name="button7", modtype="button"},
+            {name="button8", modtype="button"},
+            {name="button9", modtype="button"},
+            {name="button10", modtype="button"},
+            {name="button11", modtype="button"},
+            {name="button12", modtype="button"},
+            {name="button13", modtype="button"},
+            {name="button14", modtype="button"},
+            {name="button15", modtype="button"},
+            {name="button16", modtype="button"},
+            {name="button17", modtype="button"},
+            {name="button18", modtype="button"},
+            {name="button19", modtype="button"},
+            {name="button20", modtype="button"},
+            {name="button21", modtype="button"},
+            {name="button22", modtype="button"},
+            {name="button23", modtype="button"},
+            {name="button24", modtype="button"},
+            {name="button25", modtype="button"},
+            {name="button26", modtype="button"},
+            {name="button27", modtype="button"},
+            {name="button28", modtype="button"},
+            {name="button29", modtype="button"},
+            {name="button30", modtype="button"},
+            {name="button31", modtype="button"},
+            {name="button32", modtype="button"},
+            {name="button33", modtype="button"},
+            {name="button34", modtype="button"},
+            {name="button35", modtype="button"},
+            {name="button36", modtype="button"},
+            {name="button37", modtype="button"},
+            {name="button38", modtype="button"},
+            {name="button39", modtype="button"},
+            {name="button40", modtype="button"},
+            {name="button41", modtype="button"},
+            {name="button42", modtype="button"},
+            {name="button43", modtype="button"},
+            {name="button44", modtype="button"},
+            {name="button45", modtype="button"},
+            {name="button46", modtype="button"},
+            {name="button47", modtype="button"},
+            {name="button48", modtype="button"},
+            {name="button49", modtype="button"},
+            {name="button50", modtype="button"},
+            {name="button51", modtype="button"},
+            {name="button52", modtype="button"},
+            {name="button53", modtype="button"},
+            {name="button54", modtype="button"},
+            {name="button55", modtype="button"},
+            {name="button56", modtype="button"},
+            {name="button57", modtype="button"},
+            {name="button58", modtype="button"},
+            {name="button59", modtype="button"},
+            {name="button60", modtype="button"},
+            {name="button61", modtype="button"},
+            {name="button62", modtype="button"},
+            {name="button63", modtype="button"},
+            {name="button64", modtype="button"},
+        }
+    }
+end)
+
+if not status then
+    mapper.print('STECS Throttle not connected!')
+else
+    mapper.print('STECS Throttle connected!')
+end
+
 
 panel = mapper.device{
     name = 'Panel',
@@ -119,7 +211,15 @@ joystick = mapper.device{
 }
 
 panel_events = panel:get_events()
-hotas_events = hotas:get_events()
+
+if hotas then
+    hotas_events = hotas:get_events()
+end
+
+if stecs then
+    stecs_events = stecs:get_events()
+end
+
 --rudder_events = rudder:get_events()
 joystick_events = joystick:get_events()
 
@@ -142,8 +242,13 @@ right_brake_axis = vjoy2:get_axis('slider2')
 
 
 -- common bindings
-vr_toggle = hotas_events.button7.change
-vr_center =  hotas_events.button8.change
+if hotas_events then
+    vr_toggle = hotas_events.button7.change
+    vr_center =  hotas_events.button8.change
+elseif stecs_events then
+    vr_toggle = stecs_events.button29.down
+    vr_center =  stecs_events.button30.down
+end
 
 function is_beech(name) 
     local beech_prefix = 'Beechcraft D18S'
@@ -170,6 +275,11 @@ function is_baron(name)
     return string.sub(name, 1, string.len(baron_prefix)) == baron_prefix
 end
 
+function is_dirty30(name)
+    local d30_prefix = 'C-130J'
+    return string.sub(name, 1, string.len(d30_prefix)) == d30_prefix
+end
+
 -- aircraft description events
 local aircraft_engine_type_event = mapper.register_event('Aircraft Engine Type')
 msfs.mfwasm.add_observed_data{
@@ -190,16 +300,6 @@ openxr_right = joystick_events.button16.down
 
 
 mapper.set_primary_mappings({
-    -- common mappings - aircraft agnostic
-    {
-        event = vr_toggle,
-        action = vjoy:get_button(1):value_setter()
-    },
-    {
-        event = vr_center,
-        action = vjoy:get_button(2):value_setter()
-    },
-
     -- observe aircraft properties
     {
         event = aircraft_engine_type_event,
@@ -234,6 +334,10 @@ mapper.set_primary_mappings({
                     mapper.print('Baron! Loading dedicated mappings...')
                     require('baron')
                     mapper.set_secondary_mappings(baron_mappings)
+                elseif is_dirty30(at.aircraft) then
+                    mapper.print('Dirty 30! Loading dedicated mappings...')
+                    require('dirty30')
+                    mapper.set_secondary_mappings(dirty30_mappings)
                 else
                     mapper.print('Other aircraft. Loading generic mappings')
                     require('generic')
@@ -264,3 +368,19 @@ mapper.set_primary_mappings({
         action = mapper.keystroke{codes={'VK_F3'}, modifiers={'VK_LCONTROL'}}:synthesizer()
     },
 })
+
+if vr_toggle and vr_center then
+    mapper.print('VR toggle and center buttons found. Adding mappings...')
+    mapper.add_primary_mappings({
+        -- common mappings - aircraft agnostic
+        {
+            event = vr_toggle,
+            action = vjoy:get_button(1):value_setter()
+        },
+        {
+            event = vr_center,
+            action = vjoy:get_button(2):value_setter()
+        },
+    })
+end
+
