@@ -32,11 +32,13 @@ right_fuel_booster_off = stecs_events.button52.down
 
 ap_master_toggle = stecs_events.button10.down
 
-ap_heading_pitch_dec = stecs_events.button31.down
-ap_heading_pitch_inc = stecs_events.button32.down
+ap_heading_pitch_dec = stecs_events.button29.down
+ap_heading_pitch_inc = stecs_events.button30.down
+ap_heading_pitch_enc_dec = stecs_events.button55.down
+ap_heading_pitch_enc_inc = stecs_events.button56.down
 
-ap_vs_inc = stecs_events.button34.down
-ap_vs_dec = stecs_events.button33.down
+ap_vs_inc = stecs_events.button32.down
+ap_vs_dec = stecs_events.button31.down
 
 ap_hold_heading_toggle = stecs_events.button38.down
 ap_hold_altitute_toggle = stecs_events.button37.down
@@ -74,7 +76,12 @@ copilot_reading_light_toggle = panel_events.button4.down
 pilot_yoke_timer_sel = joystick_events.button14.down
 pilot_yoke_timer_ctl = joystick_events.button12.down
 
+trim_nose_up = stecs_events.button15.down
+trim_nose_down = stecs_events.button14.down
 
+-- press system
+press_system_toggle = stecs_events.button45.down
+press_door_seal_toggle = stecs_events.button46.down
 
 baron_mappings = {
 
@@ -208,6 +215,14 @@ baron_mappings = {
         action =  msfs.mfwasm.rpn_executer('(>K:HEADING_BUG_INC)')
     },
     {
+        event = ap_heading_pitch_enc_dec,
+        action =  msfs.mfwasm.rpn_executer('(>K:HEADING_BUG_DEC)')
+    },
+    {
+        event = ap_heading_pitch_enc_inc,
+        action =  msfs.mfwasm.rpn_executer('(>K:HEADING_BUG_INC)')
+    },
+    {
         event = ap_vs_inc,
         action =  msfs.mfwasm.rpn_executer('(>K:AP_VS_VAR_INC)')
     },
@@ -317,6 +332,16 @@ baron_mappings = {
         action = msfs.mfwasm.rpn_executer('(L:var_yokeTimerMode_L, number) 1 + 3 % (>L:var_yokeTimerMode_L, number)')
     },
 
+    -- trip
+    {
+        event = trim_nose_up,
+        action = msfs.mfwasm.rpn_executer('(>K:ELEV_TRIM_UP)')
+
+    },
+    {
+        event = trim_nose_down,
+        action = msfs.mfwasm.rpn_executer('(>K:ELEV_TRIM_DN)')
+    },
     -- debug
     {
         event = panel_events.button8.down,
@@ -343,4 +368,12 @@ baron_mappings = {
         action =  msfs.mfwasm.rpn_executer('4 (>L:BKSQ_IgnitionPosition_1) (E:SIMULATION TIME, seconds) 1000 + (>L:starterKnobReturnTime_L, number)')
     },
     -- BKSQ_MAGNETOCONTROLLER_L_Inc
+        {
+            event = press_system_toggle,
+            action = msfs.mfwasm.rpn_executer('(L:var_pressurizationPress) ! (>L:var_pressurizationPress)')-- mag both
+        },
+        {
+            event = press_door_seal_toggle,
+            action = msfs.mfwasm.rpn_executer('(L:var_doorSealPrimaryInflate) ! (>L:var_doorSealPrimaryInflate)')-- mag both
+        },
 }
