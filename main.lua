@@ -84,12 +84,12 @@ local status, err = pcall(function ()
             {name="button26", modtype="button"},
             {name="button27", modtype="button"},
             {name="button28", modtype="button"},
-            {name="button29", modtype="button"},
-            {name="button30", modtype="button"},
+            {name="button29", modtype="button", modparam={repeat_interval=100, repeat_delay=250}},
+            {name="button30", modtype="button", modparam={repeat_interval=100, repeat_delay=250}},
             {name="button31", modtype="button", modparam={repeat_interval=100, repeat_delay=250}},
             {name="button32", modtype="button", modparam={repeat_interval=100, repeat_delay=250}},
-            {name="button33", modtype="button", modparam={repeat_interval=100, repeat_delay=250}},
-            {name="button34", modtype="button", modparam={repeat_interval=100, repeat_delay=250}},
+            {name="button33", modtype="button"},
+            {name="button34", modtype="button"},
             {name="button35", modtype="button"},
             {name="button36", modtype="button"},
             {name="button37", modtype="button"},
@@ -193,22 +193,30 @@ panel = mapper.device{
 --     identifier = {name = 'VPC ACE-Torq Rudder'},
 -- }
 
-joystick = mapper.device{
-    name = 'Joystick',
-    type = 'dinput',
-    identifier = {name = 'R-VPC Stick WarBRD'},
-     modifiers = {
-        {name="x", modtype="button"},
-        {name="y", modtype="button"},
-        {name="button12", modtype="button"},
-        {name="button14", modtype="button"},
-        {name="button15", modtype="button"},
-        {name="button16", modtype="button"},
-        {name="button17", modtype="button"},
-        {name="button18", modtype="button"},
-     },   
+-- TODO add path to detect 'R-VPC Stick WarBRD'
+local status, err = pcall(function () 
+    joystick = mapper.device{
+        name = 'Joystick',
+        type = 'dinput',
+        identifier = {name = 'MOZA AB9 FFB Base'},
+        modifiers = {
+            {name="x", modtype="button"},
+            {name="y", modtype="button"},
+            {name="button12", modtype="button"},
+            {name="button14", modtype="button"},
+            {name="button15", modtype="button"},
+            {name="button16", modtype="button"},
+            {name="button17", modtype="button"},
+            {name="button18", modtype="button"},
+        },   
+    }
+end)
 
-}
+if err then
+    mapper.print('Joystick not connected!')
+else
+    mapper.print('Joystick connected!')
+end
 
 panel_events = panel:get_events()
 
@@ -246,8 +254,8 @@ if hotas_events then
     vr_toggle = hotas_events.button7.change
     vr_center =  hotas_events.button8.change
 elseif stecs_events then
-    vr_toggle = stecs_events.button29.down
-    vr_center =  stecs_events.button30.down
+    vr_toggle = stecs_events.button33.down
+    vr_center =  stecs_events.button34.down
 end
 
 function is_beech(name) 
@@ -346,7 +354,13 @@ mapper.set_primary_mappings({
                     mapper.set_secondary_mappings(dirty30_mappings)
                 else
                     mapper.print('Other aircraft. Loading generic mappings')
-                    require('generic')
+                    if hotas then
+                        require('generic')
+                    elseif stecs then
+                        require('generic-stecs')
+                    else
+                        error('Generic aircraft detected but no supported throttle found!')
+                    end
                     mapper.set_secondary_mappings(generic_mappings)
                 end
             else
@@ -381,11 +395,11 @@ if vr_toggle and vr_center then
         -- common mappings - aircraft agnostic
         {
             event = vr_toggle,
-            action = vjoy:get_button(1):value_setter()
+            action = vjoy2:get_button(1):value_setter()
         },
         {
             event = vr_center,
-            action = vjoy:get_button(2):value_setter()
+            action = vjoy2:get_button(2):value_setter()
         },
     })
 end
