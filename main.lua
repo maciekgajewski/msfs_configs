@@ -212,8 +212,9 @@ local status, err = pcall(function ()
     }
 end)
 
-if err then
+if not status then
     mapper.print('Joystick not connected!')
+    error('Joystick not connected: ' .. tostring(err))
 else
     mapper.print('Joystick connected!')
 end
@@ -232,7 +233,8 @@ end
 joystick_events = joystick:get_events()
 
 --  set-up virtual joystick
-vjoy = mapper.virtual_joystick(1)
+ -- OR NOT
+-- vjoy = mapper.virtual_joystick(1)
 
 -- vjoy_mixture_1 = vjoy:get_axis('x')
 -- vjoy_mixture_2 = vjoy:get_axis('y') 
@@ -243,10 +245,10 @@ vjoy = mapper.virtual_joystick(1)
 -- vjoy_elevator_trim = vjoy:get_axis('slider1')
 
 
-vjoy2 = mapper.virtual_joystick(2)
+-- vjoy2 = mapper.virtual_joystick(2)
 
-left_brake_axis = vjoy2:get_axis('slider1')
-right_brake_axis = vjoy2:get_axis('slider2')
+-- left_brake_axis = vjoy2:get_axis('slider1')
+-- right_brake_axis = vjoy2:get_axis('slider2')
 
 
 -- common bindings
@@ -286,6 +288,11 @@ end
 function is_dirty30(name)
     local d30_prefix = 'C-130J'
     return string.sub(name, 1, string.len(d30_prefix)) == d30_prefix
+end
+
+function is_transall(name)
+    local transall_prefix = 'C-160 Transall'
+    return string.sub(name, 1, string.len(transall_prefix)) == transall_prefix
 end
 
 -- aircraft description events
@@ -352,6 +359,10 @@ mapper.set_primary_mappings({
                     mapper.print('Dirty 30! Loading dedicated mappings...')
                     require('dirty30')
                     mapper.set_secondary_mappings(dirty30_mappings)
+                elseif is_transall(at.aircraft) then
+                    mapper.print('Transall! Loading dedicated mappings...')
+                    require('transall')
+                    mapper.set_secondary_mappings(transall_mappings)
                 else
                     mapper.print('Other aircraft. Loading generic mappings')
                     if hotas then
@@ -389,18 +400,18 @@ mapper.set_primary_mappings({
     },
 })
 
-if vr_toggle and vr_center then
-    mapper.print('VR toggle and center buttons found. Adding mappings...')
-    mapper.add_primary_mappings({
-        -- common mappings - aircraft agnostic
-        {
-            event = vr_toggle,
-            action = vjoy2:get_button(1):value_setter()
-        },
-        {
-            event = vr_center,
-            action = vjoy2:get_button(2):value_setter()
-        },
-    })
-end
+-- if vr_toggle and vr_center then
+--     mapper.print('VR toggle and center buttons found. Adding mappings...')
+--     mapper.add_primary_mappings({
+--         -- common mappings - aircraft agnostic
+--         {
+--             event = vr_toggle,
+--             action = vjoy2:get_button(1):value_setter()
+--         },
+--         {
+--             event = vr_center,
+--             action = vjoy2:get_button(2):value_setter()
+--         },
+--     })
+-- end
 
