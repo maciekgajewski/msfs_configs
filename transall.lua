@@ -159,23 +159,23 @@ transall_mappings = {
     },
     {
         event = generator_1_toggle,
-        action = msfs.mfwasm.rpn_executer('(>L:AZP_C160_G1_KNOB) ! (>L:AZP_C160_G1_KNOB)')
+        action = msfs.mfwasm.rpn_executer('(L:AZP_C160_G1_SWITCH) if{ (>H:AZP_C160_G1_KNOB_OFF) } els{ (>H:AZP_C160_G1_KNOB_ON) }')
     },
     {
         event = generator_2_toggle,
-        action = msfs.mfwasm.rpn_executer('(>L:AZP_C160_G2_KNOB) ! (>L:AZP_C160_G2_KNOB)')
+        action = msfs.mfwasm.rpn_executer('(L:AZP_C160_G2_SWITCH) if{ (>H:AZP_C160_G2_KNOB_OFF) } els{ (>H:AZP_C160_G2_KNOB_ON) }')
     },
     {
         event = generator_3_toggle,
-        action = msfs.mfwasm.rpn_executer('(>L:AZP_C160_G3_KNOB) ! (>L:AZP_C160_G3_KNOB)')
+        action = msfs.mfwasm.rpn_executer('(L:AZP_C160_G3_SWITCH) if{ (>H:AZP_C160_G3_KNOB_OFF) } els{ (>H:AZP_C160_G3_KNOB_ON) }')
     },
     {
         event = generator_4_toggle,
-        action = msfs.mfwasm.rpn_executer('(>L:AZP_C160_G4_KNOB) ! (>L:AZP_C160_G4_KNOB)')
+        action = msfs.mfwasm.rpn_executer('(L:AZP_C160_G4_SWITCH) if{ (>H:AZP_C160_G4_KNOB_OFF) } els{ (>H:AZP_C160_G4_KNOB_ON) }')
     },
     {
         event = generator_5_toggle,
-        action = msfs.mfwasm.rpn_executer('(>L:AZP_C160_G5_KNOB) ! (>L:AZP_C160_G5_KNOB)')
+        action = msfs.mfwasm.rpn_executer('(L:AZP_C160_G5_SWITCH) 1 == if{ (>H:AZP_C160_G5_KNOB_ON)  } els{ (>H:AZP_C160_G5_KNOB_OFF) }')
     }
 
 }
