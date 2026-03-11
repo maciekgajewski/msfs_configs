@@ -38,6 +38,9 @@ landing_light_right_on = panel_events.button30.down
 taxi_lights_off = panel_events.button25.down
 taxi_lights_on = panel_events.button26.down
 
+beacon_lights_on = panel_events.button24.down
+beacon_lights_off = panel_events.button23.down
+
 -- Electrical
 
 battery_1_toggle = stecs_events.button39.down
@@ -139,12 +142,19 @@ transall_mappings = {
     },
     {
         event = taxi_lights_off,
-        --action = msfs.mfwasm.rpn_executer('(>K:TAXI_LIGHTS_OFF)')
-        action = msfs.mfwasm.rpn_executer('1 (>L:AZP_C160_TAXI_LIGHT_SWITCH)')
+        action = msfs.mfwasm.rpn_executer('(>H:AZP_C160_LIGHTING_TAXI_RETRACT)')
     },
     {
         event = taxi_lights_on,
-        action = msfs.mfwasm.rpn_executer('2 (>L:AZP_C160_TAXI_LIGHT_SWITCH)')
+        action = msfs.mfwasm.rpn_executer('(>H:AZP_C160_LIGHTING_TAXI_EXTEND)')
+    },
+    {
+        event = beacon_lights_on,
+        action = msfs.mfwasm.rpn_executer('(>K:TOGGLE_BEACON_LIGHTS)')
+    },
+    {
+        event = beacon_lights_off,
+        action = msfs.mfwasm.rpn_executer('(>K:TOGGLE_NAV_LIGHTS)')
     },
 
     -- electrical
