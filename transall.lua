@@ -52,6 +52,14 @@ generator_3_toggle = stecs_events.button44.down
 generator_4_toggle = stecs_events.button45.down
 generator_5_toggle = stecs_events.button46.down
 
+-- engine
+
+idle_level_left_norm    = stecs_events.button47.down
+idle_level_left_start    = stecs_events.button49.down
+
+idle_level_right_norm    = stecs_events.button50.down
+idle_level_right_start    = stecs_events.button52.down
+
 transall_mappings = {
 
 
@@ -186,6 +194,25 @@ transall_mappings = {
     {
         event = generator_5_toggle,
         action = msfs.mfwasm.rpn_executer('(L:AZP_C160_G5_SWITCH) 1 == if{ (>H:AZP_C160_G5_KNOB_ON)  } els{ (>H:AZP_C160_G5_KNOB_OFF) }')
-    }
+    },
+
+    -- idle levelrs
+    {
+        event = idle_level_left_norm,
+        action = msfs.mfwasm.rpn_executer('0 (>L:AZP_C160_ENGINE_IDLE_LEVER_POSIION:1, percent)')
+    },
+    {
+        event = idle_level_left_start,
+        action = msfs.mfwasm.rpn_executer('100 (>L:AZP_C160_ENGINE_IDLE_LEVER_POSIION:1, percent)')
+    },
+    {
+        event = idle_level_right_norm,
+        action = msfs.mfwasm.rpn_executer('0 (>L:AZP_C160_ENGINE_IDLE_LEVER_POSIION:2, percent)')
+    },
+    {
+        event = idle_level_right_start,
+        action = msfs.mfwasm.rpn_executer('100 (>L:AZP_C160_ENGINE_IDLE_LEVER_POSIION:2, percent)')
+    },
+
 
 }
