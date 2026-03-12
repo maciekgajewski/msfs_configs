@@ -22,8 +22,8 @@ ap_vs_dec = stecs_events.button31.down
 
 ap_hold_heading_toggle = stecs_events.button38.down
 ap_hold_altitute_toggle = stecs_events.button37.down
-ap_hold_pitch_toggle = stecs_events.button35.down
-ap_hold_nav_toggle = stecs_events.button36.down
+ap_hold_radio_toggle = stecs_events.button35.down
+ap_sel_heading_toggle = stecs_events.button36.down
 
 hsi_cdi_inc = stecs_events.button58.down
 hsi_cdi_dec = stecs_events.button57.down
@@ -72,23 +72,23 @@ transall_mappings = {
         -- AP --
     {
         event = ap_master_toggle,
-        action =  msfs.mfwasm.rpn_executer('(>K:AP_MASTER)')
+        action =  msfs.mfwasm.rpn_executer('(>H:AZP_C160_AP_TOGGLE)')
     },
     {
         event = ap_hold_heading_toggle,
-        action =  msfs.mfwasm.rpn_executer('(>K:AP_PANEL_HEADING_HOLD)')
+        action =  msfs.mfwasm.rpn_executer('(>H:AZP_C160_AP_HDG_HOLD_TOGGLE)')
     },
     {
-        event = ap_hold_nav_toggle,
-        action =  msfs.mfwasm.rpn_executer('(>K:AP_APR_HOLD)')
+        event = ap_sel_heading_toggle,
+        action =  msfs.mfwasm.rpn_executer('(>H:AZP_C160_AP_HDG_SEL_TOGGLE)')
     },
     {
         event = ap_hold_altitute_toggle,
-        action =  msfs.mfwasm.rpn_executer('(>K:AP_ALT_HOLD)')
+        action =  msfs.mfwasm.rpn_executer('(>H:AZP_C160_AP_ALT_TOGGLE)')
     },
     {
-        event = ap_hold_pitch_toggle,
-        action =  msfs.mfwasm.rpn_executer('(>K:AP_PANEL_VS_HOLD)')
+        event = ap_hold_radio_toggle,
+        action =  msfs.mfwasm.rpn_executer('(>H:AZP_C160_AP_HDG_RADIO_TOGGLE)')
     },
     {
         event = ap_heading_pitch_dec,
