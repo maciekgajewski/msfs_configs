@@ -29,17 +29,17 @@ hsi_cdi_inc = stecs_events.button58.down
 hsi_cdi_dec = stecs_events.button57.down
 
 -- lights
-landing_light_left_off = panel_events.button27.down
-landing_light_left_on = panel_events.button28.down
+landing_lights_off = panel_events.button29.down
+landing_lights_on = panel_events.button30.down
 
-landing_light_right_off = panel_events.button29.down
-landing_light_right_on = panel_events.button30.down
+taxi_lights_off = panel_events.button27.down
+taxi_lights_on = panel_events.button28.down
 
-taxi_lights_off = panel_events.button25.down
-taxi_lights_on = panel_events.button26.down
+beacon_lights_off = panel_events.button25.down
+beacon_lights_on = panel_events.button26.down
 
-beacon_lights_on = panel_events.button24.down
-beacon_lights_off = panel_events.button23.down
+position_lights_off = panel_events.button23.down
+position_lights_on = panel_events.button24.down
 
 -- Electrical
 
@@ -125,20 +125,12 @@ transall_mappings = {
 
         -- == Lights == --
     {
-        event = landing_light_left_off,
-        action = msfs.mfwasm.rpn_executer('1 (>K:2:LANDING_LIGHTS_OFF)')
+        event = landing_lights_off,
+        action = msfs.mfwasm.rpn_executer('1 (>K:2:LANDING_LIGHTS_OFF) 2 (>K:2:LANDING_LIGHTS_OFF)')
     },
     {
-        event = landing_light_left_on,
-        action = msfs.mfwasm.rpn_executer('1 (>K:2:LANDING_LIGHTS_ON)')
-    },
-    {
-        event = landing_light_right_off,
-        action = msfs.mfwasm.rpn_executer('2 (>K:2:LANDING_LIGHTS_OFF)')
-    },
-    {
-        event = landing_light_right_on,
-        action = msfs.mfwasm.rpn_executer('2 (>K:2:LANDING_LIGHTS_ON)')
+        event = landing_lights_on,
+        action = msfs.mfwasm.rpn_executer('1 (>K:2:LANDING_LIGHTS_ON) 2 (>K:2:LANDING_LIGHTS_ON)')
     },
     {
         event = taxi_lights_off,
@@ -150,11 +142,19 @@ transall_mappings = {
     },
     {
         event = beacon_lights_on,
-        action = msfs.mfwasm.rpn_executer('(>K:TOGGLE_BEACON_LIGHTS)')
+        action = msfs.mfwasm.rpn_executer('(A:LIGHT BEACON, Bool) ! if{ (>K:TOGGLE_BEACON_LIGHTS) }')
     },
     {
         event = beacon_lights_off,
-        action = msfs.mfwasm.rpn_executer('(>K:TOGGLE_NAV_LIGHTS)')
+        action = msfs.mfwasm.rpn_executer('(A:LIGHT BEACON, Bool) if{ (>K:TOGGLE_BEACON_LIGHTS) }')
+    },
+    {
+        event = position_lights_on,
+        action = msfs.mfwasm.rpn_executer('(A:LIGHT NAV, Bool) ! if{ (>K:TOGGLE_NAV_LIGHTS) }')
+    },
+    {
+        event = position_lights_off,
+        action = msfs.mfwasm.rpn_executer('(A:LIGHT NAV, Bool) if{ (>K:TOGGLE_NAV_LIGHTS) }')
     },
 
     -- electrical
