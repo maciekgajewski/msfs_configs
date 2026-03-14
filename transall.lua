@@ -124,11 +124,11 @@ transall_mappings = {
     },
 {
         event = hsi_cdi_inc,
-        action = msfs.mfwasm.rpn_executer('1 (>K:VOR1_OBI_INC)')
+        action = msfs.mfwasm.rpn_executer('(>H:AZP_C160_DSP_CRS_INC_1)')
     },
     {
         event = hsi_cdi_dec,
-        action = msfs.mfwasm.rpn_executer('1 (>K:VOR1_OBI_DEC)') 
+        action = msfs.mfwasm.rpn_executer('(>H:AZP_C160_DSP_CRS_DEC_1)') 
     },
 
         -- == Lights == --
