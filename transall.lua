@@ -27,6 +27,12 @@ ap_sel_heading_toggle = stecs_events.button36.down
 
 hsi_cdi_inc = stecs_events.button58.down
 hsi_cdi_dec = stecs_events.button57.down
+hsi_cdi_press = stecs_events.button60.down
+
+hsi_cdi_inc_alt = panel_events.button41.down
+hsi_cdi_dec_alt = panel_events.button42.down
+hsi_cdi_press_alt = panel_events.button40.down
+
 
 -- lights
 landing_lights_off = panel_events.button29.down
@@ -59,6 +65,14 @@ idle_level_left_start    = stecs_events.button49.down
 
 idle_level_right_norm    = stecs_events.button50.down
 idle_level_right_start    = stecs_events.button52.down
+
+
+-- hud
+
+hud_button_press = panel_events.button37.down
+hud_button_release = panel_events.button37.up
+hud_power_knob_inc = panel_events.button38.down
+hud_power_knob_dec = panel_events.button39.down
 
 transall_mappings = {
 
@@ -122,7 +136,7 @@ transall_mappings = {
         event = ap_vs_dec,
         action =  msfs.mfwasm.rpn_executer('(>K:AP_VS_VAR_DEC)')
     },
-{
+    {
         event = hsi_cdi_inc,
         action = msfs.mfwasm.rpn_executer('(>H:AZP_C160_DSP_CRS_INC_1)')
     },
@@ -130,6 +144,23 @@ transall_mappings = {
         event = hsi_cdi_dec,
         action = msfs.mfwasm.rpn_executer('(>H:AZP_C160_DSP_CRS_DEC_1)') 
     },
+    {
+        event = hsi_cdi_press,
+        action = msfs.mfwasm.rpn_executer('(>H:AZP_C160_DSP_CRS_DIRECT_1)') 
+    },
+    {
+        event = hsi_cdi_inc_alt,
+        action = msfs.mfwasm.rpn_executer('(>H:AZP_C160_DSP_CRS_INC_1)')
+    },
+    {
+        event = hsi_cdi_dec_alt,
+        action = msfs.mfwasm.rpn_executer('(>H:AZP_C160_DSP_CRS_DEC_1)') 
+    },
+    {
+        event = hsi_cdi_press_alt,
+        action = msfs.mfwasm.rpn_executer('(>H:AZP_C160_DSP_CRS_DIRECT_1)') 
+    },
+
 
         -- == Lights == --
     {
@@ -196,7 +227,7 @@ transall_mappings = {
         action = msfs.mfwasm.rpn_executer('(L:AZP_C160_G5_SWITCH) 1 == if{ (>H:AZP_C160_G5_KNOB_ON)  } els{ (>H:AZP_C160_G5_KNOB_OFF) }')
     },
 
-    -- idle levelrs
+    -- idle levers
     {
         event = idle_level_left_norm,
         action = msfs.mfwasm.rpn_executer('0 (>L:AZP_C160_ENGINE_IDLE_LEVER_POSIION:1, percent)')
@@ -214,5 +245,22 @@ transall_mappings = {
         action = msfs.mfwasm.rpn_executer('100 (>L:AZP_C160_ENGINE_IDLE_LEVER_POSIION:2, percent)')
     },
 
+    -- hud
+    {
+        event = hud_button_press,
+        action = msfs.mfwasm.rpn_executer('1 (>L:AZP_C160_HUD_TEST_PILOT_PRESSED, Bool)')
+    },
+    {
+        event = hud_button_release,
+        action = msfs.mfwasm.rpn_executer('0 (>L:AZP_C160_HUD_TEST_PILOT_PRESSED, Bool)')
+    },
+    {
+        event = hud_power_knob_inc,
+        action = msfs.mfwasm.rpn_executer('(L:AZP_C160_HUD_POWER_PILOT_KNOB, Percent) 1 + 100 min (>L:AZP_C160_HUD_POWER_PILOT_KNOB, Percent)')
+    },
+    {
+        event = hud_power_knob_dec,
+        action = msfs.mfwasm.rpn_executer('(L:AZP_C160_HUD_POWER_PILOT_KNOB, Percent) 1 - 0 max (>L:AZP_C160_HUD_POWER_PILOT_KNOB, Percent)')
+    }
 
 }
