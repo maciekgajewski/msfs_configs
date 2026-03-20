@@ -29,8 +29,8 @@ hsi_cdi_inc = stecs_events.button58.down
 hsi_cdi_dec = stecs_events.button57.down
 hsi_cdi_press = stecs_events.button60.down
 
-hsi_cdi_inc_alt = panel_events.button41.down
-hsi_cdi_dec_alt = panel_events.button42.down
+hsi_cdi_inc_alt = panel_events.button42.down
+hsi_cdi_dec_alt = panel_events.button41.down
 hsi_cdi_press_alt = panel_events.button40.down
 
 
@@ -46,6 +46,16 @@ beacon_lights_on = panel_events.button26.down
 
 position_lights_off = panel_events.button23.down
 position_lights_on = panel_events.button24.down
+
+-- internal lights
+cabin_light_off = panel_events.button18.down
+cabin_light_on = panel_events.button17.down
+
+dome_light_off = panel_events.button20.down
+dome_light_on = panel_events.button19.down
+
+panel_lights_inc = panel_events.button21.down
+panel_lights_dec = panel_events.button22.down
 
 -- Electrical
 
@@ -261,6 +271,33 @@ transall_mappings = {
     {
         event = hud_power_knob_dec,
         action = msfs.mfwasm.rpn_executer('(L:AZP_C160_HUD_POWER_PILOT_KNOB, Percent) 1 - 0 max (>L:AZP_C160_HUD_POWER_PILOT_KNOB, Percent)')
-    }
+    },
+
+    -- interior lights --
+
+    {
+        event = cabin_light_on,
+        action = msfs.mfwasm.rpn_executer('(>K:CABIN_LIGHTS_ON)')
+    },
+    {
+        event = cabin_light_off,
+        action = msfs.mfwasm.rpn_executer('(>K:CABIN_LIGHTS_OFF)')
+    },
+    {
+        event = dome_light_on,
+        action = msfs.mfwasm.rpn_executer('(>B:LIGHTING_CABIN_1_Toggle)')
+    },
+    {
+        event = dome_light_off,
+        action = msfs.mfwasm.rpn_executer('(>B:LIGHTING_CABIN_1_Toggle)')
+    },
+    {
+        event = panel_lights_inc,
+        action = msfs.mfwasm.rpn_executer('1 (>B:LIGHTING_PANEL_7_Inc) 1 (>B:LIGHTING_PANEL_8_Inc) 1 (>B:LIGHTING_PANEL_9_Inc)')
+    },
+    {
+        event = panel_lights_dec,
+        action = msfs.mfwasm.rpn_executer('1 (>B:LIGHTING_PANEL_7_Dec) 1 (>B:LIGHTING_PANEL_8_Dec) 1 (>B:LIGHTING_PANEL_9_Dec)')
+    },
 
 }
