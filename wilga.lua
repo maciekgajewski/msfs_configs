@@ -1,37 +1,28 @@
 
 -- == Bindings for Got Firends Wilga ==
 
-parking_brake_on = hotas_events.button24.up
-parking_brake_off = hotas_events.button24.down
+parking_brake_toggle = stecs_events.button41.down
 
-flaps_up = hotas_events.button22.down
-flaps_mid = hotas_events.button22.up
-flaps_mid_alt = hotas_events.button23.up
-flaps_down = hotas_events.button23.down
+flaps_up = stecs_events.button61.down
+flaps_mid = stecs_events.button61.up
+flaps_mid_alt = stecs_events.button62.up
+flaps_down = stecs_events.button62.down
 
-landing_light_on = hotas_events.button25.down
-landing_light_off = hotas_events.button25.up
+landing_light_on = stecs_events.button53.down
+landing_light_off = stecs_events.button54.down
 
-fd_toggle = hotas_events.button15.up
-fd_heading_pitch = hotas_events.pov1.change
+fd_toggle = stecs_events.button10.down
 
-fd_heading_pitch_action = function(val)
-    if val == 0 then
-        msfs.mfwasm.execute_rpn('(>K:AP_VS_VAR_INC)')
-    elseif val == 18000 then
-        msfs.mfwasm.execute_rpn('(>K:AP_VS_VAR_DEC)')
-    elseif val == 9000 then
-        msfs.mfwasm.execute_rpn('(>K:HEADING_BUG_INC)')
-    elseif val == 27000 then
-        msfs.mfwasm.execute_rpn('(>K:HEADING_BUG_DEC)')
-    end
-end
+fp_heading_pitch_dec = stecs_events.button29.down
+fp_heading_pitch_inc = stecs_events.button30.down
+fp_vs_inc = stecs_events.button32.down
+fp_vs_dec = stecs_events.button31.down
 
 heading_bug_inc = panel_events.button39.down
 heading_bug_dec = panel_events.button38.down
 
-tablet_hide = hotas_events.button20.up
-tablet_show = hotas_events.button20.down
+tablet_hide = stecs_events.button49.down
+tablet_show = stecs_events.button47.down
 
 cooling_shutter_axis = panel_events.ry.change
 
@@ -44,37 +35,10 @@ freq_swap = panel_events.button13.down
 
 wilga_mappings = {
 
-    -- == Axes ==
-    -- {
-    --     event = panel_events.x.change,
-    --     action = vjoy_mixture_1:value_setter()
-    -- },
-    -- {
-    --     event = hotas_events.rz.change,
-    --     action = filter.lerp(vjoy_prop_1:value_setter(),
-    --     { -- wilga needs reversing the prop axis
-    --         {-50000, 50000},
-    --         {50000, -50000}
-    --     })
-    -- },
-    -- {
-    --     event = hotas_events.z.change,
-    --     action = vjoy_throttle_1:value_setter()
-    -- },
-
-    -- {
-    --     event = hotas_events.slider1.change,
-    --     action = vjoy_elevator_trim:value_setter()
-    -- },
-
     -- == Wheels ==
     {
-        event = parking_brake_on,
-        action =  msfs.mfwasm.rpn_executer('1 (>K:PARKING_BRAKE_SET,Bool)')
-    },
-    {
-        event = parking_brake_off,
-        action =  msfs.mfwasm.rpn_executer('0 (>K:PARKING_BRAKE_SET,Bool)')
+        event = parking_brake_toggle,
+        action =  msfs.mfwasm.rpn_executer('(>K:PARKING_BRAKES)')
     },
 
     -- == Flaps ==
@@ -111,8 +75,20 @@ wilga_mappings = {
         action =  msfs.mfwasm.rpn_executer('0 (>K:TOGGLE_RECOGNITION_LIGHTS)')
     },
     {
-        event = fd_heading_pitch,
-        action = function(_, val) fd_heading_pitch_action(val) end
+        event = fp_heading_pitch_dec,
+        action = msfs.mfwasm.rpn_executer('0 (>K:HEADING_BUG_DEC)')
+    },
+    {
+        event = fp_heading_pitch_inc,
+        action = msfs.mfwasm.rpn_executer('0 (>K:HEADING_BUG_INC)')
+    },
+    {
+        event = fp_vs_inc,
+        action = msfs.mfwasm.rpn_executer('0 (>K:AP_VS_VAR_INC)')
+    },
+    {
+        event = fp_vs_dec,
+        action = msfs.mfwasm.rpn_executer('0 (>K:AP_VS_VAR_DEC)')
     },
 
     -- == Shutters ==

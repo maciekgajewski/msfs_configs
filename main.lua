@@ -1,4 +1,4 @@
-hotas = nil -- Warthog hota
+hotas = nil -- Warthog hotas
 
 local status, err = pcall(function () 
     hotas = mapper.device{
