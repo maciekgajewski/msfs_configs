@@ -1,53 +1,5 @@
 hotas = nil -- Warthog hotas
 
-local status, err = pcall(function () 
-    hotas = mapper.device{
-        name = 'Hotas',
-        type = 'dinput',
-        identifier = {name = 'Throttle - HOTAS Warthog'},
-        modifiers = {
-            {name="button0", modtype="button"},
-            {name="button1", modtype="button"},
-            {name="button2", modtype="button"},
-            {name="button3", modtype="button"},
-            {name="button4", modtype="button"},
-            {name="button5", modtype="button"},
-            {name="button6", modtype="button"},
-            -- {name="button7", modtype="button"},
-            -- {name="button8", modtype="button"},
-            {name="button9", modtype="button"},
-            {name="button10", modtype="button"},
-            {name="button11", modtype="button"},
-            {name="button12", modtype="button"},
-            {name="button13", modtype="button"},
-            {name="button14", modtype="button"},
-            {name="button15", modtype="button"},
-            {name="button16", modtype="button"},
-            {name="button17", modtype="button"},
-            {name="button18", modtype="button"},
-            {name="button19", modtype="button"},
-            {name="button20", modtype="button"},
-            {name="button21", modtype="button"},
-            {name="button22", modtype="button"},
-            {name="button23", modtype="button"},
-            {name="button24", modtype="button"},
-            {name="button25", modtype="button"},
-            {name="button26", modtype="button"},
-            {name="button27", modtype="button"},
-            {name="button28", modtype="button"},
-            {name="button29", modtype="button"},
-            {name="button30", modtype="button"},
-            {name="button31", modtype="button"},
-            {name="button32", modtype="button"},
-        },
-    }
-end)
-
-if not status then
-    mapper.print('Warthog Throttle not connected!')
-else
-    mapper.print('Warthog Throttle connected!')
-end
 
 local status, err = pcall(function () 
     stecs = mapper.device{
@@ -214,23 +166,20 @@ end)
 
 if not status then
     mapper.print('Joystick not connected!')
-    error('Joystick not connected: ' .. tostring(err))
 else
     mapper.print('Joystick connected!')
 end
 
 panel_events = panel:get_events()
 
-if hotas then
-    hotas_events = hotas:get_events()
-end
-
 if stecs then
     stecs_events = stecs:get_events()
 end
 
 --rudder_events = rudder:get_events()
-joystick_events = joystick:get_events()
+if joystick then
+    joystick_events = joystick:get_events()
+end
 
 --  set-up virtual joystick
  -- OR NOT
@@ -252,10 +201,7 @@ joystick_events = joystick:get_events()
 
 
 -- common bindings
-if hotas_events then
-    vr_toggle = hotas_events.button7.change
-    vr_center =  hotas_events.button8.change
-elseif stecs_events then
+if stecs_events then
     vr_toggle = stecs_events.button33.down
     vr_center =  stecs_events.button34.down
 end
@@ -295,6 +241,11 @@ function is_transall(name)
     return string.sub(name, 1, string.len(transall_prefix)) == transall_prefix
 end
 
+function is_starship(name)
+    local startship_prefix = 'Black Square Starship'
+    return string.sub(name, 1, string.len(startship_prefix)) == startship_prefix
+end
+
 -- aircraft description events
 local aircraft_engine_type_event = mapper.register_event('Aircraft Engine Type')
 msfs.mfwasm.add_observed_data{
@@ -307,11 +258,12 @@ msfs.mfwasm.add_observed_data{
 local aircraft_engine_type = 0
 
 -- openxr menu
-openxr_up = joystick_events.button15.down
-openxr_down = joystick_events.button17.down
-openxr_left = joystick_events.button18.down
-openxr_right = joystick_events.button16.down
-
+if joystick_events then
+    openxr_up = joystick_events.button15.down
+    openxr_down = joystick_events.button17.down
+    openxr_left = joystick_events.button18.down
+    openxr_right = joystick_events.button16.down
+end
 
 
 mapper.set_primary_mappings({
@@ -347,9 +299,7 @@ mapper.set_primary_mappings({
                     mapper.set_secondary_mappings(aerostar_mappings)
                 elseif is_baron(at.aircraft) then
                     mapper.print('Baron! Loading dedicated mappings...')
-                    if hotas then
-                        require('baron-warthog')
-                    elseif stecs then
+                    if stecs then
                         require('baron-stecs')
                     else
                         error('Baron detected but no supported throttle found!')
@@ -363,11 +313,13 @@ mapper.set_primary_mappings({
                     mapper.print('Transall! Loading dedicated mappings...')
                     require('transall')
                     mapper.set_secondary_mappings(transall_mappings)
+                elseif is_starship(at.aircraft) then
+                    mapper.print('Starship! Loading dedicated mappings...')
+                    require('starship')
+                    mapper.set_secondary_mappings(starship_mappings)
                 else
                     mapper.print('Other aircraft. Loading generic mappings')
-                    if hotas then
-                        require('generic')
-                    elseif stecs then
+                    if stecs then
                         require('generic-stecs')
                     else
                         error('Generic aircraft detected but no supported throttle found!')
