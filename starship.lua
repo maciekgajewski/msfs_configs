@@ -35,6 +35,21 @@ ap_mode_nav = stecs_events.button36.down
 ap_mode_apr = stecs_events.button19.down
 ap_disengage = stecs_events.button10.down
 
+-- AP switches
+ap_on = stecs_events.button50.down
+ap_off = stecs_events.button52.down
+yaw_damper_on = stecs_events.button47.down
+yaw_damper_off = stecs_events.button49.down
+
+-- upper light panel
+lights_button_landing = panel_events.button8.down
+lights_button_taxi = panel_events.button9.down
+light_button_wing = panel_events.button10.down
+lights_button_nav = panel_events.button11.down
+lights_button_strobe_low = panel_events.button12.down
+lights_button_anti_collision = panel_events.button13.down
+
+
 starship_mappings = {
 
 
@@ -149,4 +164,69 @@ starship_mappings = {
         event = ap_disengage,
         action =  msfs.mfwasm.rpn_executer('(>K:AUTOPILOT_DISENGAGE_TOGGLE)')
     },
+
+    -- AP --
+-- ap_on = stecs_events.button50.down
+-- ap_off = stecs_events.button42.down
+-- yaw_dampener_on = stecs_events.button47.down
+-- yaw_dampener_off = stecs_events.button49.down
+    {
+        event = ap_on,
+        action =  msfs.mfwasm.rpn_executer('(A:AUTOPILOT MASTER, Bool) ! if{ (>K:AP_MASTER) }')
+    },
+    {
+        event = ap_off,
+        action =  msfs.mfwasm.rpn_executer('(A:AUTOPILOT MASTER, Bool) if{ (>K:AP_MASTER) }')
+    },
+    {
+        event = yaw_damper_on,
+        action =  msfs.mfwasm.rpn_executer('(>K:YAW_DAMPER_ON)')
+    },
+    {
+        event = yaw_damper_off,
+        action =  msfs.mfwasm.rpn_executer('(>K:YAW_DAMPER_OFF)')
+    },
+
+
+    -- External Lights panel --
+-- upper light panel
+-- lights_button_landing = panel_events.button8.down
+-- lights_button_taxi = panel_events.button9.down
+-- light_button_wing = panel_events.button10.down
+-- lights_button_nav = panel_events.button11.down
+-- lights_button_strobe_low = panel_events.button12.down
+-- lights_button_anti_collision = panel_events.button13.down
+    {
+        event = lights_button_landing,
+        -- works funnu: swithces dirst wing, then nose
+        --action = msfs.mfwasm.rpn_executer('(A:LIGHT LANDING, Bool) ! if{ 1 1 (>K:2:LANDING_LIGHTS_SET) 1 2 (>K:2:LANDING_LIGHTS_SET) } els{ 0 1 (>K:2:LANDING_LIGHTS_SET) 0 2 (>K:2:LANDING_LIGHTS_SET) }')
+        
+        -- toggles  only wing
+        --action = msfs.mfwasm.rpn_executer('(A:LIGHT LANDING, Bool) ! if{ 1 1 (>K:2:LANDING_LIGHTS_SET) 2 1 (>K:2:LANDING_LIGHTS_SET) } els{ 1 0 (>K:2:LANDING_LIGHTS_SET) 2 0 (>K:2:LANDING_LIGHTS_SET) }')
+
+        action = msfs.mfwasm.rpn_executer('(A:LIGHT LANDING, Bool) ! if{ 1 1 (>K:2:LANDING_LIGHTS_SET) 0 1 (>K:2:LANDING_LIGHTS_SET) } els{ 1 0 (>K:2:LANDING_LIGHTS_SET) 0 0 (>K:2:LANDING_LIGHTS_SET) }')
+    },
+    {
+        event = lights_button_taxi,
+        action = msfs.mfwasm.rpn_executer('(>K:TOGGLE_TAXI_LIGHTS)')
+    },
+    {
+        event = light_button_wing,
+        action = msfs.mfwasm.rpn_executer('(>K:TOGGLE_WING_LIGHTS)')
+    },
+    {
+        event = lights_button_nav,
+        action = msfs.mfwasm.rpn_executer('(>K:TOGGLE_NAV_LIGHTS)')
+    },
+    {
+        event = lights_button_strobe_low,
+        action = msfs.mfwasm.rpn_executer('(L:var_StrobeLight_Low, Bool) ! (>L:var_StrobeLight_Low, Bool)')
+    },
+    {
+        event = lights_button_anti_collision,
+        action = msfs.mfwasm.rpn_executer('(L:var_StrobeLight_High, Bool) ! (>L:var_StrobeLight_High, Bool)')
+    },
+
+
+
 }
